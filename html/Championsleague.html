@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Champions League Eliminatoria</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 1rem;
+            text-align: left;
+        }
+        th, td {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .winner {
+            background-color: #d4edda; /* Verde claro */
+        }
+    </style>
+</head>
+<body>
+    <h1>Champions League Eliminatoria</h1>
+    <table id="championsTable">
+        <thead>
+            <tr>
+                <th>Equipo Local</th>
+                <th>Goles Local</th>
+                <th>Equipo Visitante</th>
+                <th>Goles Visitante</th>
+                <th>Ganador</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Almería</td>
+                <td contenteditable="true">0</td>
+                <td>Athletic Club</td>
+                <td contenteditable="true">0</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Atlético de Madrid</td>
+                <td contenteditable="true">0</td>
+                <td>Barcelona</td>
+                <td contenteditable="true">0</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Cádiz</td>
+                <td contenteditable="true">0</td>
+                <td>Celta de Vigo</td>
+                <td contenteditable="true">0</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Elche</td>
+                <td contenteditable="true">0</td>
+                <td>Espanyol</td>
+                <td contenteditable="true">0</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Getafe</td>
+                <td contenteditable="true">0</td>
+                <td>Girona</td>
+                <td contenteditable="true">0</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Mallorca</td>
+                <td contenteditable="true">0</td>
+                <td>Osasuna</td>
+                <td contenteditable="true">0</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Rayo Vallecano</td>
+                <td contenteditable="true">0</td>
+                <td>Real Betis</td>
+                <td contenteditable="true">0</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Real Madrid</td>
+                <td contenteditable="true">0</td>
+                <td>Real Sociedad</td>
+                <td contenteditable="true">0</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Sevilla</td>
+                <td contenteditable="true">0</td>
+                <td>Valencia</td>
+                <td contenteditable="true">0</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Valladolid</td>
+                <td contenteditable="true">0</td>
+                <td>Villarreal</td>
+                <td contenteditable="true">0</td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <script>
+        function actualizarGanadores() {
+            const table = document.getElementById('championsTable');
+            const rows = Array.from(table.tBodies[0].rows);
+
+            rows.forEach(row => {
+                const golesLocal = parseInt(row.cells[1].textContent.trim()) || 0;
+                const golesVisitante = parseInt(row.cells[3].textContent.trim()) || 0;
+                const ganadorCell = row.cells[4];
+
+                if (golesLocal > golesVisitante) {
+                    ganadorCell.textContent = row.cells[0].textContent;
+                    row.classList.add('winner');
+                } else if (golesVisitante > golesLocal) {
+                    ganadorCell.textContent = row.cells[2].textContent;
+                    row.classList.add('winner');
+                } else {
+                    ganadorCell.textContent = "Empate";
+                    row.classList.remove('winner');
+                }
+            });
+        }
+
+        // Llama a la función después de cada cambio manual en la tabla
+        document.addEventListener('input', actualizarGanadores);
+
+        // Inicializa la tabla al cargar la página
+        actualizarGanadores();
+    </script>
+</body>
+</html>
