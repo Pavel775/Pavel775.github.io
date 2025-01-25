@@ -4,70 +4,10 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Pavel775</title>
+        <title>Liga Pavel</title>
         <link rel="shotcut icon" href="/img/logo pavel.png">
-        <link rel="stylesheet" type="text/css" href="/css/estilos.css">
+        <link rel="stylesheet" type="text/css" href="/css/estilosliga.css">
         <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
-        <style>
-            /* Estilos del navbar moderno */
-            nav {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                background-color: red;
-                padding: 1rem;
-            }
-            
-            nav ul {
-                list-style: none;
-                display: flex;
-                margin: 0;
-                padding: 0;
-            }
-    
-            nav ul li {
-                margin: 0 1rem;
-            }
-    
-            nav ul li a {
-                color: white;
-                text-decoration: none;
-                font-size: 1.2rem;
-                transition: color 0.3s ease;
-            }
-    
-            nav ul li a:hover {
-                color: #00acee;
-            }
-    
-            .logo {
-                font-size: 1.5rem;
-                color: white;
-                font-weight: bold;
-            }
-    
-            .menu-toggle {
-                display: none;
-                font-size: 1.5rem;
-                color: white;
-            }
-    
-            @media (max-width: 768px) {
-                nav ul {
-                    display: none;
-                    flex-direction: column;
-                    width: 100%;
-                }
-    
-                nav ul.showing {
-                    display: flex;
-                }
-    
-                .menu-toggle {
-                    display: block;
-                }
-            }
-        </style>
     </head>
     <header>
         <nav>
@@ -86,7 +26,75 @@
             </ul>
         </nav>
     </header>
-<body>
+    <body>
+        <h1>Tabla de Liga de Fútbol</h1>
+        <table id="ligaTable">
+            <thead>
+                <tr>
+                    <th>Posición</th>
+                    <th>Equipo</th>
+                    <th>Puntos</th>
+                    <th>Partidos Jugados</th>
+                    <th>Partidos Ganados</th>
+                    <th>Partidos Empatados</th>
+                    <th>Partidos Perdidos</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>Equipo A</td>
+                    <td>42</td>
+                    <td>20</td>
+                    <td>13</td>
+                    <td>3</td>
+                    <td>4</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Equipo B</td>
+                    <td>35</td>
+                    <td>20</td>
+                    <td>10</td>
+                    <td>5</td>
+                    <td>5</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>Equipo C</td>
+                    <td>40</td>
+                    <td>20</td>
+                    <td>12</td>
+                    <td>4</td>
+                    <td>4</td>
+                </tr>
+            </tbody>
+        </table>
     
-</body>
+        <script>
+            function actualizarTabla() {
+                const table = document.getElementById('ligaTable');
+                const rows = Array.from(table.tBodies[0].rows);
+    
+                // Ordenar las filas según los puntos (columna 3)
+                rows.sort((a, b) => {
+                    const puntosA = parseInt(a.cells[2].textContent, 10);
+                    const puntosB = parseInt(b.cells[2].textContent, 10);
+                    return puntosB - puntosA;
+                });
+    
+                // Reasignar posiciones y actualizar la tabla
+                rows.forEach((row, index) => {
+                    row.cells[0].textContent = index + 1; // Actualizar posición
+                    table.tBodies[0].appendChild(row); // Reorganizar la fila
+                });
+            }
+    
+            // Llama a la función cada vez que sea necesario (ejemplo: cada 5 segundos)
+            setInterval(actualizarTabla, 5000);
+    
+            // También puedes llamarla manualmente después de actualizar los datos
+            actualizarTabla();
+        </script>
+    </body>
 </html>
