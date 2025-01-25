@@ -43,39 +43,66 @@
             <tbody>
                 <tr>
                     <td>1</td>
-                    <td>Almeria</td>
-                    <td>0</td>
-                    <td>20</td>
-                    <td>13</td>
-                    <td>3</td>
+                    <td>FC Barcelona</td>
+                    <td>82</td>
+                    <td>38</td>
+                    <td>26</td>
                     <td>4</td>
+                    <td>8</td>
                 </tr>
                 <tr>
                     <td>2</td>
-                    <td>Athletic Club</td>
+                    <td>Real Madrid</td>
+                    <td>78</td>
+                    <td>38</td>
+                    <td>25</td>
                     <td>3</td>
-                    <td>20</td>
                     <td>10</td>
-                    <td>5</td>
-                    <td>5</td>
                 </tr>
                 <tr>
                     <td>3</td>
-                    <td>Atletico de Madrid</td>
-                    <td>0</td>
-                    <td>20</td>
-                    <td>12</td>
-                    <td>4</td>
-                    <td>4</td>
+                    <td>Atlético de Madrid</td>
+                    <td>75</td>
+                    <td>38</td>
+                    <td>23</td>
+                    <td>6</td>
+                    <td>9</td>
                 </tr>
                 <tr>
                     <td>4</td>
-                    <td>Barcelona</td>
-                    <td>0</td>
+                    <td>Real Sociedad</td>
+                    <td>71</td>
+                    <td>38</td>
+                    <td>21</td>
+                    <td>8</td>
+                    <td>9</td>
+                </tr>
+                <tr>
+                    <td>18</td>
+                    <td>Espanyol</td>
+                    <td>36</td>
+                    <td>38</td>
+                    <td>9</td>
+                    <td>9</td>
                     <td>20</td>
-                    <td>12</td>
-                    <td>4</td>
-                    <td>4</td>
+                </tr>
+                <tr>
+                    <td>19</td>
+                    <td>Real Valladolid</td>
+                    <td>34</td>
+                    <td>38</td>
+                    <td>9</td>
+                    <td>7</td>
+                    <td>22</td>
+                </tr>
+                <tr>
+                    <td>20</td>
+                    <td>Elche</td>
+                    <td>25</td>
+                    <td>38</td>
+                    <td>5</td>
+                    <td>10</td>
+                    <td>23</td>
                 </tr>
             </tbody>
         </table>
@@ -92,9 +119,12 @@
                     return puntosB - puntosA;
                 });
     
-                // Reasignar posiciones y actualizar la tabla
+                // Reasignar posiciones y actualizar estilos
                 rows.forEach((row, index) => {
                     row.cells[0].textContent = index + 1; // Actualizar posición
+                    row.classList.remove('top-three', 'bottom-three'); // Limpiar estilos
+                    if (index < 3) row.classList.add('top-three'); // Top 3
+                    if (index >= rows.length - 3) row.classList.add('bottom-three'); // Últimos 3
                     table.tBodies[0].appendChild(row); // Reorganizar la fila
                 });
             }
