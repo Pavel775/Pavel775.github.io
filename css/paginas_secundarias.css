@@ -38,7 +38,7 @@ nav ul li a {
 }
 
 nav ul li a:hover {
-    color: #ff6f61;
+    color: white;
 }
 
 /* Estilo de las secciones */
@@ -69,8 +69,8 @@ nav ul li a:hover {
 footer {
     text-align: center;
     padding: 20px;
-    background-color: #333;
-    color: #fff;
+    background-color: transparent;
+    color: black;
     position: fixed;
     bottom: 0;
     width: 100%;
