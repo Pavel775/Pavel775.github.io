@@ -6,7 +6,10 @@
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
 }
-
+header{
+    padding: 20px 20px;
+    text-align: center;
+}
 nav {
     display: flex;
     justify-content: space-between;
@@ -73,7 +76,7 @@ h1
 }
 .type
 {
-    color: yellow;
+    color: white;
 }
 .social-media
 {

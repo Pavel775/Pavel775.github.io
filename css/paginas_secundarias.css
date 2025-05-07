@@ -1,7 +1,7 @@
 /* Estilos generales */
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #f4f4f4;
+    background-color: transparent;
     color: black;
     margin: 0;
     padding: 0;
@@ -9,7 +9,7 @@ body {
 
 /* Estilo del encabezado */
 header {
-    background-color: red;
+    background-color: transparent;
     color: #fff;
     padding: 20px 0;
     text-align: center;
@@ -38,7 +38,7 @@ nav ul li a {
 }
 
 nav ul li a:hover {
-    color: white;
+    color: red;
 }
 
 /* Estilo de las secciones */
