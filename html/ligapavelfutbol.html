@@ -55,45 +55,65 @@
                 <tr><td>10</td><td>Mallorca</td>            <td>0</td>  <td>0</td>  <td>0</td>  <td>0</td>  <td>0</td>  </tr>
                 <tr><td>11</td><td>Osasuna</td>             <td>0</td>  <td>0</td>  <td>0</td>  <td>0</td>  <td>0</td>  </tr>
                 <tr><td>12</td><td>Rayo Vallecano</td>      <td>0</td>  <td>0</td>  <td>0</td>  <td>0</td>  <td>0</td>  </tr>
-                <tr><td>13</td><td>Real Madrid</td>         <td>0</td>  <td>0</td>  <td>0</td>  <td>0</td>  <td>0</td>  </tr>
+                <tr><td>13</td><td>Real Madrid</td>         <td>0</td>  <td>1</td>  <td>1</td>  <td>0</td>  <td>0</td>  </tr>
                 <tr><td>14</td><td>Real Sociedad</td>       <td>0</td>  <td>0</td>  <td>0</td>  <td>0</td>  <td>0</td>  </tr>
                 <tr><td>15</td><td>RCD Espanyol</td>        <td>0</td>  <td>0</td>  <td>0</td>  <td>0</td>  <td>0</td>  </tr>
                 <tr><td>16</td><td>Sevilla</td>             <td>0</td>  <td>0</td>  <td>0</td>  <td>0</td>  <td>0</td>  </tr>
-                <tr><td>17</td><td>Valencia CF</td>         <td>0</td>  <td>0</td>  <td>0</td>  <td>0</td>  <td>0</td>  </tr>
+                <tr><td>17</td><td>Valencia CF</td>         <td>0</td>  <td>1</td>  <td>0</td>  <td>0</td>  <td>1</td>  </tr>
                 <tr><td>18</td><td>Villarreal</td>          <td>0</td>  <td>0</td>  <td>0</td>  <td>0</td>  <td>0</td>  </tr>
                 <tr><td>19</td><td>Levante</td>             <td>0</td>  <td>0</td>  <td>0</td>  <td>0</td>  <td>0</td>  </tr>
                 <tr><td>20</td><td>Real Oviedo</td>         <td>0</td>  <td>0</td>  <td>0</td>  <td>0</td>  <td>0</td>  </tr>
-</tbody>        
+            </tbody>        
         </table>
     
-        <script>
-            function actualizarTabla() {
+    <script>
+        function actualizarTabla() {
                 const table = document.getElementById('ligaTable');
                 const rows = Array.from(table.tBodies[0].rows);
-    
-                // Ordenar las filas según los puntos (columna 3)
-                rows.sort((a, b) => {
-                    const puntosA = parseInt(a.cells[2].textContent, 10);
-                    const puntosB = parseInt(b.cells[2].textContent, 10);
-                    return puntosB - puntosA;
-                });
-    
-                // Reasignar posiciones y actualizar estilos
-                rows.forEach((row, index) => {
-                    row.cells[0].textContent = index + 1; // Actualizar posición
-                    row.classList.remove('top-three', 'bottom-three'); // Limpiar estilos
-                    if (index < 3) row.classList.add('top-three'); // Top 3
-                    if (index >= rows.length - 3) row.classList.add('bottom-three'); // Últimos 3
-                    table.tBodies[0].appendChild(row); // Reorganizar la fila
-                });
-            }
-    
-            // Llama a la función cada vez que sea necesario (ejemplo: cada 5 segundos)
-            setInterval(actualizarTabla, 5000);
-    
-            // También puedes llamarla manualmente después de actualizar los datos
-            actualizarTabla();
-        </script>
+
+                rows.forEach(row => {
+                const PG = parseInt(row.cells[2].textContent, 10);
+                const PE = parseInt(row.cells[3].textContent, 10);
+                const PP = parseInt(row.cells[4].textContent, 10);
+                const GF = parseInt(row.cells[5].textContent, 10);
+                const GC = parseInt(row.cells[6].textContent, 10);
+
+                // Calcular diferencia de goles
+                const DF = GF - GC;
+                row.cells[7].textContent = DF;
+
+                // Calcular puntos
+                const PTS = (PG * 3) + PE;
+                row.cells[8].textContent = PTS;
+            });
+
+            // Ordenar las filas por puntos y diferencia de goles
+            rows.sort((a, b) => {
+                const puntosA = parseInt(a.cells[8].textContent, 10);
+                const puntosB = parseInt(b.cells[8].textContent, 10);
+                if (puntosB !== puntosA) return puntosB - puntosA; // Prioridad: puntos
+                const dfA = parseInt(a.cells[7].textContent, 10);
+                const dfB = parseInt(b.cells[7].textContent, 10);
+                return dfB - dfA; // Segundo criterio: diferencia de goles
+            });
+
+            // Reasignar posiciones y estilos
+            rows.forEach((row, index) => {
+                row.cells[0].textContent = index + 1; // Actualizar posición
+                row.classList.remove('top-three', 'bottom-three');
+                if (index < 3) row.classList.add('top-three'); // Top 3
+                if (index >= rows.length - 3) row.classList.add('bottom-three'); // Últimos 3
+                table.tBodies[0].appendChild(row); // Reorganizar fila
+            });
+        }
+
+        // Ejecutar cada 5 segundos para actualizar dinámicamente
+        setInterval(actualizarTabla, 5000);
+
+        // Llamada inicial
+        actualizarTabla();
+    </script>
+
     </body>
     <footer>
         <p>© 2024 Pavel775. Todos los derechos reservados.</p>
