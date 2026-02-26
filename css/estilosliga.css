@@ -63,7 +63,7 @@ nav ul li a:hover {
         display: block;
     }
 }
-table {
+/*table {
     width: 100%;
     border-collapse: collapse;
     margin: 20px 0;
@@ -82,10 +82,10 @@ tr:nth-child(even) {
 }
 .top-three {
     background-color: #d4edda; /* Verde claro */
-}
+/*}
 .bottom-three {
-    background-color: #f8d7da; /* Rojo claro */
-}
+    background-color: #f8d7da; 
+} /* Rojo claro */
 footer {
     text-align: center;
     padding: 20px;
