@@ -63,29 +63,6 @@ nav ul li a:hover {
         display: block;
     }
 }
-/*table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 20px 0;
-    font-size: 1rem;
-    text-align: left;
-}
-th, td {
-    padding: 8px 12px;
-    border: 1px solid #ddd;
-}
-th {
-    background-color: #f4f4f4;
-}
-tr:nth-child(even) {
-    background-color: #f9f9f9;
-}
-.top-three {
-    background-color: #d4edda; /* Verde claro */
-/*}
-.bottom-three {
-    background-color: #f8d7da; 
-} /* Rojo claro */
 footer {
     text-align: center;
     padding: 20px;
