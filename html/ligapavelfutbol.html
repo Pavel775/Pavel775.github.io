@@ -28,39 +28,124 @@
     </header>
     <body>
         <style>
-    #ligaTable {
-        width: 100%;
-        border-collapse: collapse;
-        text-align: center;
+    body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f4f6f9;
+}
+
+/* ===== CONTENEDOR ===== */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* ===== CABECERA ===== */
+thead {
+    background: #111827;
+    color: white;
+}
+
+thead th {
+    padding: 12px 8px;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* ===== FILAS ===== */
+tbody td {
+    padding: 10px 8px;
+    text-align: center;
+    font-size: 14px;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f9fafb;
+}
+
+tbody tr:hover {
+    background-color: #e5e7eb;
+    transition: 0.2s ease;
+}
+
+/* ===== COLUMNA EQUIPO ===== */
+tbody td:nth-child(2) {
+    text-align: left;
+    font-weight: 600;
+}
+
+/* ===== ZONAS DE CLASIFICACIÓN ===== */
+
+/* Champions (1-4) */
+tbody tr:nth-child(-n+4) {
+    border-left: 5px solid #2563eb;
+}
+
+/* Europa League (5-6) */
+tbody tr:nth-child(5),
+tbody tr:nth-child(6) {
+    border-left: 5px solid #16a34a;
+}
+
+/* Descenso (18-20) */
+tbody tr:nth-last-child(-n+3) {
+    border-left: 5px solid #dc2626;
+}
+
+/* ===== ÚLTIMOS 5 ===== */
+.ultimos5 {
+    display: flex;
+    justify-content: center;
+}
+
+.ultimos5 div {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    margin: 0 3px;
+}
+
+/* Victoria */
+.victoria {
+    background-color: #22c55e;
+}
+
+/* Empate */
+.empate {
+    background-color: #9ca3af;
+}
+
+/* Derrota */
+.derrota {
+    background-color: #ef4444;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 900px) {
+    table {
+        font-size: 12px;
     }
-    #ligaTable th, #ligaTable td {
-        border: 1px solid #ddd;
-        padding: 8px;
+
+    thead {
+        display: none;
     }
-    #ligaTable th {
-        background-color: #333;
-        color: #fff;
+
+    tbody tr {
+        display: block;
+        margin-bottom: 10px;
+        border-bottom: 2px solid #ddd;
     }
-    .top-three {
-        background-color: #c2f0c2; /* verde claro*/
-        font-weight: bold;
+
+    tbody td {
+        display: flex;
+        justify-content: space-between;
+        padding: 6px;
     }
-    .bottom-three {
-        background-color: #f0c2c2; /* rojo claro */
-        font-weight: bold;
-    }
-    .barra {
-        height: 15px;
-        background-color: #4CAF50;
-        display: inline-block;
-        margin: 0;
-    }
-    .barra-df {
-        height: 15px;
-        background-color: #2196F3;
-        display: inline-block;
-        margin: 0;
-    }
+}
 </style>
         <h1>La Liga</h1>
         <h2>Jornada 26 de 38</h2>
@@ -72,6 +157,7 @@
                 <tr>
                 <th>Pos</th>
                 <th>Equipo</th>
+                <th>PJ</th>
                 <th>PG</th>
                 <th>PE</th>
                 <th>PP</th>
@@ -79,80 +165,113 @@
                 <th>GC</th>
                 <th>DF</th>
                 <th>PTS</th>
-                <!--<th>PJ</th>-->
+                <th>Últimos 5</th>
                 </tr>
             </thead>
             <tbody>
-                <tr><td>1</td><td>Alavés</td>               <!-- PG --><td>7</td>  <!-- PE --><td>6</td>  <!-- PP --><td>13</td>  <!-- GF --><td>23</td>  <!-- GC --><td>34</td>  <!--automatico--><td>0</td>  <td>0</td></tr>
-                <tr><td>2</td><td>Athletic Club</td>        <!-- PG --><td>10</td>  <!-- PE --><td>5</td>  <!-- PP --><td>11</td>  <!-- GF --><td>30</td>  <!-- GC --><td>36</td>  <!--automatico--><td>0</td>  <td>0</td></tr>
-                <tr><td>3</td><td>Atlético de Madrid</td>   <!-- PG --><td>15</td>  <!-- PE --><td>6</td>  <!-- PP --><td>5</td>  <!-- GF --><td>43</td>  <!-- GC --><td>23</td>  <!--automatico--><td>0</td>  <td>0</td></tr>
-                <tr><td>4</td><td>FC Barcelona</td>         <!-- PG --><td>21</td>  <!-- PE --><td>1</td>  <!-- PP --><td>4</td>  <!-- GF --><td>71</td>  <!-- GC --><td>26</td>  <!--automatico--><td>0</td>  <td>0</td></tr>
-                <tr><td>5</td><td>Real Betis</td>           <!-- PG --><td>11</td>  <!-- PE --><td>10</td>  <!-- PP --><td>5</td>  <!-- GF --><td>42</td>  <!-- GC --><td>32</td>  <!--automatico--><td>0</td>  <td>0</td></tr>
-                <tr><td>6</td><td>Celta de Vigo</td>        <!-- PG --><td>10</td>  <!-- PE --><td>10</td>  <!-- PP --><td>6</td>  <!-- GF --><td>36</td>  <!-- GC --><td>28</td>  <!--automatico--><td>0</td>  <td>0</td></tr>
-                <tr><td>7</td><td>Getafe</td>               <!-- PG --><td>8</td>  <!-- PE --><td>5</td>  <!-- PP --><td>12</td>  <!-- GF --><td>20</td>  <!-- GC --><td>29</td>  <!--automatico--><td>0</td>  <td>0</td></tr>
-                <tr><td>8</td><td>Girona</td>               <!-- PG --><td>7</td>  <!-- PE --><td>9</td>  <!-- PP --><td>10</td>  <!-- GF --><td>27</td>  <!-- GC --><td>42</td>  <!--automatico--><td>0</td>  <td>0</td></tr>
-                <tr><td>9</td><td>Elche</td>                <!-- PG --><td>5</td>  <!-- PE --><td>11</td>  <!-- PP --><td>10</td>  <!-- GF --><td>34</td>  <!-- GC --><td>39</td>  <!--automatico--><td>0</td>  <td>0</td></tr>
-                <tr><td>10</td><td>Mallorca</td>            <!-- PG --><td>6</td>  <!-- PE --><td>6</td>  <!-- PP --><td>14</td>  <!-- GF --><td>29</td>  <!-- GC --><td>42</td>  <!--automatico--><td>0</td>  <td>0</td></tr>
-                <tr><td>11</td><td>Osasuna</td>             <!-- PG --><td>9</td>  <!-- PE --><td>6</td>  <!-- PP --><td>11</td>  <!-- GF --><td>30</td>  <!-- GC --><td>30</td>  <!--automatico--><td>0</td>  <td>0</td></tr>
-                <tr><td>12</td><td>Rayo Vallecano</td>      <!-- PG --><td>6</td>  <!-- PE --><td>9</td>  <!-- PP --><td>10</td>  <!-- GF --><td>23</td>  <!-- GC --><td>32</td>  <!--automatico--><td>0</td>  <td>0</td></tr>
-                <tr><td>13</td><td>Real Madrid</td>         <!-- PG --><td>19</td>  <!-- PE --><td>3</td>  <!-- PP --><td>3</td>  <!-- GF --><td>54</td>  <!-- GC --><td>21</td>  <!--automatico--><td>0</td>  <td>0</td></tr>
-                <tr><td>14</td><td>Real Sociedad</td>       <!-- PG --><td>9</td>  <!-- PE --><td>8</td>  <!-- PP --><td>9</td>  <!-- GF --><td>38</td>  <!-- GC --><td>38</td>  <!--automatico--><td>0</td>  <td>0</td></tr>
-                <tr><td>15</td><td>RCD Espanyol</td>        <!-- PG --><td>10</td>  <!-- PE --><td>6</td>  <!-- PP --><td>10</td>  <!-- GF --><td>33</td>  <!-- GC --><td>39</td>  <!--automatico--><td>0</td>  <td>0</td></tr>
-                <tr><td>16</td><td>Sevilla</td>             <!-- PG --><td>8</td>  <!-- PE --><td>6</td>  <!-- PP --><td>12</td>  <!-- GF --><td>34</td>  <!-- GC --><td>41</td>  <!--automatico--><td>0</td>  <td>0</td></tr>
-                <tr><td>17</td><td>Valencia CF</td>         <!-- PG --><td>7</td>  <!-- PE --><td>8</td>  <!-- PP --><td>11</td>  <!-- GF --><td>27</td>  <!-- GC --><td>39</td>  <!--automatico--><td>0</td>  <td>0</td></tr>
-                <tr><td>18</td><td>Villarreal</td>          <!-- PG --><td>16</td>  <!-- PE --><td>3</td>  <!-- PP --><td>7</td>  <!-- GF --><td>48</td>  <!-- GC --><td>31</td>  <!--automatico--><td>0</td>  <td>0</td></tr>
-                <tr><td>19</td><td>Levante</td>             <!-- PG --><td>5</td>  <!-- PE --><td>6</td>  <!-- PP --><td>15</td>  <!-- GF --><td>28</td>  <!-- GC --><td>44</td>  <!--automatico--><td>0</td>  <td>0</td></tr>
-                <tr><td>20</td><td>Real Oviedo</td>         <!-- PG --><td>3</td>  <!-- PE --><td>8</td>  <!-- PP --><td>14</td>  <!-- GF --><td>16</td>  <!-- GC --><td>40</td>  <!--automatico--><td>0</td>  <td>0</td></tr>
-            </tbody>
+
+<tr><td>1</td><td>Alavés</td><td>0</td><td>7</td><td>6</td><td>13</td><td>23</td><td>34</td><td>0</td><td>0</td><td class="ultimos5"></td></tr>
+
+<tr><td>2</td><td>Athletic Club</td><td>0</td><td>10</td><td>5</td><td>11</td><td>30</td><td>36</td><td>0</td><td>0</td><td class="ultimos5"></td></tr>
+
+<tr><td>3</td><td>Atlético de Madrid</td><td>0</td><td>15</td><td>6</td><td>5</td><td>43</td><td>23</td><td>0</td><td>0</td><td class="ultimos5"></td></tr>
+
+<tr><td>4</td><td>FC Barcelona</td><td>0</td><td>21</td><td>1</td><td>4</td><td>71</td><td>26</td><td>0</td><td>0</td><td class="ultimos5"></td></tr>
+
+<tr><td>5</td><td>Real Betis</td><td>0</td><td>11</td><td>10</td><td>5</td><td>42</td><td>32</td><td>0</td><td>0</td><td class="ultimos5"></td></tr>
+
+<tr><td>6</td><td>Celta de Vigo</td><td>0</td><td>10</td><td>10</td><td>6</td><td>36</td><td>28</td><td>0</td><td>0</td><td class="ultimos5"></td></tr>
+
+<tr><td>7</td><td>Getafe</td><td>0</td><td>8</td><td>5</td><td>12</td><td>20</td><td>29</td><td>0</td><td>0</td><td class="ultimos5"></td></tr>
+
+<tr><td>8</td><td>Girona</td><td>0</td><td>7</td><td>9</td><td>10</td><td>27</td><td>42</td><td>0</td><td>0</td><td class="ultimos5"></td></tr>
+
+<tr><td>9</td><td>Elche</td><td>0</td><td>5</td><td>11</td><td>10</td><td>34</td><td>39</td><td>0</td><td>0</td><td class="ultimos5"></td></tr>
+
+<tr><td>10</td><td>Mallorca</td><td>0</td><td>6</td><td>6</td><td>14</td><td>29</td><td>42</td><td>0</td><td>0</td><td class="ultimos5"></td></tr>
+
+<tr><td>11</td><td>Osasuna</td><td>0</td><td>9</td><td>6</td><td>11</td><td>30</td><td>30</td><td>0</td><td>0</td><td class="ultimos5"></td></tr>
+
+<tr><td>12</td><td>Rayo Vallecano</td><td>0</td><td>6</td><td>9</td><td>10</td><td>23</td><td>32</td><td>0</td><td>0</td><td class="ultimos5"></td></tr>
+
+<tr><td>13</td><td>Real Madrid</td><td>0</td><td>19</td><td>3</td><td>3</td><td>54</td><td>21</td><td>0</td><td>0</td><td class="ultimos5"></td></tr>
+
+<tr><td>14</td><td>Real Sociedad</td><td>0</td><td>9</td><td>8</td><td>9</td><td>38</td><td>38</td><td>0</td><td>0</td><td class="ultimos5"></td></tr>
+
+<tr><td>15</td><td>RCD Espanyol</td><td>0</td><td>10</td><td>6</td><td>10</td><td>33</td><td>39</td><td>0</td><td>0</td><td class="ultimos5"></td></tr>
+
+<tr><td>16</td><td>Sevilla</td><td>0</td><td>8</td><td>6</td><td>12</td><td>34</td><td>41</td><td>0</td><td>0</td><td class="ultimos5"></td></tr>
+
+<tr><td>17</td><td>Valencia CF</td><td>0</td><td>7</td><td>8</td><td>11</td><td>27</td><td>39</td><td>0</td><td>0</td><td class="ultimos5"></td></tr>
+
+<tr><td>18</td><td>Villarreal</td><td>0</td><td>16</td><td>3</td><td>7</td><td>48</td><td>31</td><td>0</td><td>0</td><td class="ultimos5"></td></tr>
+
+<tr><td>19</td><td>Levante</td><td>0</td><td>5</td><td>6</td><td>15</td><td>28</td><td>44</td><td>0</td><td>0</td><td class="ultimos5"></td></tr>
+
+<tr><td>20</td><td>Real Oviedo</td><td>0</td><td>3</td><td>8</td><td>14</td><td>16</td><td>40</td><td>0</td><td>0</td><td class="ultimos5"></td></tr>
+
+</tbody>
         </table>
     
     <script>
-        function actualizarTabla() {
-                const table = document.getElementById('ligaTable');
-                const rows = Array.from(table.tBodies[0].rows);
 
-                rows.forEach(row => {
-                const PG = parseInt(row.cells[2].textContent, 10);
-                const PE = parseInt(row.cells[3].textContent, 10);
-                const PP = parseInt(row.cells[4].textContent, 10);
-                const GF = parseInt(row.cells[5].textContent, 10);
-                const GC = parseInt(row.cells[6].textContent, 10);
+function actualizarTabla() {
 
-                // Calcular diferencia de goles
-                const DF = GF - GC;
-                row.cells[7].textContent = DF;
+    const table = document.getElementById('ligaTable');
+    const rows = Array.from(table.tBodies[0].rows);
 
-                // Calcular puntos
-                const PTS = (PG * 3) + PE;
-                row.cells[8].textContent = PTS;
-            });
+    rows.forEach(row => {
 
-            // Ordenar las filas por puntos y diferencia de goles
-            rows.sort((a, b) => {
-                const puntosA = parseInt(a.cells[8].textContent, 10);
-                const puntosB = parseInt(b.cells[8].textContent, 10);
-                if (puntosB !== puntosA) return puntosB - puntosA; // Prioridad: puntos
-                const dfA = parseInt(a.cells[7].textContent, 10);
-                const dfB = parseInt(b.cells[7].textContent, 10);
-                return dfB - dfA; // Segundo criterio: diferencia de goles
-            });
+        const PG = parseInt(row.cells[3].textContent);
+        const PE = parseInt(row.cells[4].textContent);
+        const PP = parseInt(row.cells[5].textContent);
+        const GF = parseInt(row.cells[6].textContent);
+        const GC = parseInt(row.cells[7].textContent);
 
-            // Reasignar posiciones y estilos
-            rows.forEach((row, index) => {
-                row.cells[0].textContent = index + 1; // Actualizar posición
-                row.classList.remove('top-three', 'bottom-three');
-                if (index < 3) row.classList.add('top-three'); // Top 3
-                if (index >= rows.length - 3) row.classList.add('bottom-three'); // Últimos 3
-                table.tBodies[0].appendChild(row); // Reorganizar fila
-            });
-        }
+        const PJ = PG + PE + PP;
+        const DF = GF - GC;
+        const PTS = PG * 3 + PE;
 
-        // Ejecutar cada 5 segundos para actualizar dinámicamente
-        setInterval(actualizarTabla, 5000);
+        row.cells[2].textContent = PJ;
+        row.cells[8].textContent = DF;
+        row.cells[9].textContent = PTS;
+    });
 
-        // Llamada inicial
-        actualizarTabla();
-    </script>
+    ordenarTabla();
+}
+
+function ordenarTabla() {
+
+    const table = document.getElementById('ligaTable');
+    const rows = Array.from(table.tBodies[0].rows);
+
+    rows.sort((a, b) => {
+
+        const ptsA = parseInt(a.cells[9].textContent);
+        const ptsB = parseInt(b.cells[9].textContent);
+
+        if (ptsB !== ptsA) return ptsB - ptsA;
+
+        const dfA = parseInt(a.cells[8].textContent);
+        const dfB = parseInt(b.cells[8].textContent);
+
+        if (dfB !== dfA) return dfB - dfA;
+
+        const gfA = parseInt(a.cells[6].textContent);
+        const gfB = parseInt(b.cells[6].textContent);
+
+        return gfB - gfA;
+    });
+
+    rows.forEach((row, index) => {
+        row.cells[0].textContent = index + 1;
+        table.tBodies[0].appendChild(row);
+    });
+}
+
+actualizarTabla();
+
+</script>
 
     </body>
     <footer>
