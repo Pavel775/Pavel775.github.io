@@ -4,14 +4,14 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Liga Pavel</title>
+        <title>La Liga España</title>
         <link rel="shotcut icon" href="/img/logo pavel.png">
         <link rel="stylesheet" type="text/css" href="/css/estilosliga.css">
         <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
     </head>
     <header>
         <nav>
-            <div class="logo">Pavel775</div>
+            <div class="logo">La Liga Española</div>
             <div class="menu-toggle"><i class="fas fa-bars"></i></div>
             <ul>
                 <li>
@@ -21,78 +21,556 @@
                     <a href="/html/sobremi.html">Sobre mí</a>
                 </li>
                 <li>
-                    <a href="/html/ligapavelfutbol.html">Liga Pavel</a>
+                    <a href="/html/ligapavelfutbol.html">Liga Española</a>
                 </li>
             </ul>
         </nav>
     </header>
     <body>
-        <h1>Liga de Pavel</h1>
-        <a href="/html/ligapavelfutbol.html">Volver</a>
-        <table id="ligaTable">
-            <thead>
-                <tr>
-                    <th>Posición</th>
-                    <th>Equipo</th>
-                    <th>Puntos</th>
-                    <th>Partidos Jugados</th>
-                    <th>Partidos Ganados</th>
-                    <th>Partidos Empatados</th>
-                    <th>Partidos Perdidos</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr><td>1</td><td>Almería</td>                  <td contenteditable="true">0</td><td>0</td>    <td>0</td><td>0</td><td>0</td></tr>
-                <tr><td>2</td><td>Athletic Club</td>            <td contenteditable="true">0</td><td>0</td>    <td>0</td><td>0</td><td>0</td></tr>
-                <tr><td>3</td><td>Atlético de Madrid</td>       <td contenteditable="true">0</td><td>0</td>    <td>0</td><td>0</td><td>0</td></tr>
-                <tr><td>4</td><td>Cádiz</td>                    <td contenteditable="true">0</td><td>0</td>    <td>0</td><td>0</td><td>0</td></tr>
-                <tr><td>5</td><td>Celta de Vigo</td>            <td contenteditable="true">0</td><td>0</td>    <td>0</td><td>0</td><td>0</td></tr>
-                <tr><td>6</td><td>Elche</td>                    <td contenteditable="true">0</td><td>0</td>    <td>0</td><td>0</td><td>0</td></tr>
-                <tr><td>7</td><td>Espanyol</td>                 <td contenteditable="true">0</td><td>0</td>    <td>0</td><td>0</td><td>0</td></tr>
-                <tr><td>8</td><td>FC Barcelona</td>             <td contenteditable="true">0</td><td>0</td>    <td>0</td><td>0</td><td>0</td></tr>
-                <tr><td>9</td><td>Getafe</td>                   <td contenteditable="true">0</td><td>0</td>    <td>0</td><td>0</td><td>0</td></tr>
-                <tr><td>10</td><td>Girona</td>                  <td contenteditable="true">0</td><td>0</td>    <td>0</td><td>0</td><td>0</td></tr>
-                <tr><td>11</td><td>Mallorca</td>                <td contenteditable="true">0</td><td>0</td>    <td>0</td><td>0</td><td>0</td></tr>
-                <tr><td>12</td><td>Osasuna</td>                 <td contenteditable="true">0</td><td>0</td>    <td>0</td><td>0</td><td>0</td></tr>
-                <tr><td>13</td><td>Rayo Vallecano</td>          <td contenteditable="true">0</td><td>0</td>    <td>0</td><td>0</td><td>0</td></tr>
-                <tr><td>14</td><td>Real Betis</td>              <td contenteditable="true">0</td><td>0</td>    <td>0</td><td>0</td><td>0</td></tr>
-                <tr><td>15</td><td>Real Madrid</td>             <td contenteditable="true">0</td><td>0</td>    <td>0</td><td>0</td><td>0</td></tr>
-                <tr><td>16</td><td>Real Sociedad</td>           <td contenteditable="true">0</td><td>0</td>    <td>0</td><td>0</td><td>0</td></tr>
-                <tr><td>17</td><td>Real Valladolid</td>         <td contenteditable="true">0</td><td>0</td>    <td>0</td><td>0</td><td>0</td></tr>
-                <tr><td>18</td><td>Sevilla</td>                 <td contenteditable="true">0</td><td>0</td>    <td>0</td><td>0</td><td>0</td></tr>
-                <tr><td>19</td><td>Valencia</td>                <td contenteditable="true">0</td><td>0</td>    <td>0</td><td>0</td><td>0</td></tr>
-                <tr><td>20</td><td>Villarreal</td>              <td contenteditable="true">0</td><td>0</td>    <td>0</td><td>0</td><td>0</td></tr>
-            </tbody>
-        </table>
+        <style>
+    body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f4f6f9;
+}
+
+/* ===== CONTENEDOR ===== */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* ===== CABECERA ===== */
+thead {
+    background: #111827;
+    color: white;
+}
+
+thead th {
+    padding: 12px 8px;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* ===== FILAS ===== */
+tbody td {
+    padding: 10px 8px;
+    text-align: center;
+    font-size: 14px;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f9fafb;
+}
+
+tbody tr:hover {
+    background-color: #e5e7eb;
+    transition: 0.2s ease;
+}
+
+/* ===== COLUMNA EQUIPO ===== */
+tbody td:nth-child(2) {
+    text-align: left;
+    font-weight: 600;
+}
+
+/* ===== ZONAS DE CLASIFICACIÓN ===== */
+
+/* Champions (1-4) */
+tbody tr:nth-child(-n+4) {
+    border-left: 5px solid #2563eb;
+}
+
+/* Europa League (5-6) */
+tbody tr:nth-child(5),
+tbody tr:nth-child(6) {
+    border-left: 5px solid #16a34a;
+}
+
+/* Descenso (18-20) */
+tbody tr:nth-last-child(-n+3) {
+    border-left: 5px solid #dc2626;
+}
+
+/* ===== ÚLTIMOS 5 ===== */
+
+.ultimos5 {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+}
+
+.forma {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    font-size: 12px;
+    font-weight: bold;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: aparecer 0.3s ease forwards;
+    transform: scale(0);
+}
+
+/* Animación */
+@keyframes aparecer {
+    to {
+        transform: scale(1);
+    }
+}
+
+/* Estados */
+.victoria { background: #22c55e; }
+.empate   { background: #9ca3af; }
+.derrota  { background: #ef4444; }
+/* ===== RESPONSIVE ===== */
+@media (max-width: 900px) {
+    table {
+        font-size: 12px;
+    }
+
+    thead {
+        display: none;
+    }
+
+    tbody tr {
+        display: block;
+        margin-bottom: 10px;
+        border-bottom: 2px solid #ddd;
+    }
+
+    tbody td {
+        display: flex;
+        justify-content: space-between;
+        padding: 6px;
+    }
+}
+.panel-partido, .panel-historial {
+    background: white;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+}
+
+.panel-partido {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.panel-partido select,
+.panel-partido input {
+    padding: 6px;
+}
+
+.panel-partido button {
+    background: #2563eb;
+    color: white;
+    border: none;
+    padding: 7px 14px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.panel-partido button:hover {
+    background: #1d4ed8;
+}
+
+#historialPartidos {
+    max-height: 200px;
+    overflow-y: auto;
+    margin-bottom: 10px;
+}
+
+.partido-item {
+    padding: 6px;
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
+}
+
+.btn-deshacer {
+    background: #dc2626;
+    color: white;
+    border: none;
+    padding: 7px 14px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn-deshacer:hover {
+    background: #b91c1c;
+}
+</style>
+
+<h1>La Liga</h1>
+<div class="panel-partido">
+
+    <h3>Registrar Partido</h3>
+
+    <select id="equipoLocal"></select>
+    <input type="number" id="golesLocal" min="0" placeholder="Goles">
+
+    <span>vs</span>
+
+    <input type="number" id="golesVisitante" min="0" placeholder="Goles">
+    <select id="equipoVisitante"></select>
+
+    <button onclick="guardarPartido()">Guardar</button>
+
+</div>
+
+<div class="panel-historial">
+    <h3>Historial de Partidos</h3>
+    <div id="historialPartidos"></div>
+    <button onclick="deshacerUltimoPartido()" class="btn-deshacer">
+        Deshacer último partido
+    </button>
+</div>
+
+
+<table id="ligaTable">
+    <thead>
+        <tr>
+            <th>Pos</th>
+            <th>Equipo</th>
+            <th>PJ</th>
+            <th>PG</th>
+            <th>PE</th>
+            <th>PP</th>
+            <th>GF</th>
+            <th>GC</th>
+            <th>DF</th>
+            <th>PTS</th>
+            <th>Últimos 5</th>
+        </tr>
+    </thead>
+    <tbody>
+
+    <tr><td>1</td><td>Alavés</td><td>0</td><td>7</td><td>6</td><td>13</td><td>23</td><td>34</td><td>0</td><td>0</td><td class="ultimos5"></td></tr>
+
+    <tr><td>2</td><td>Athletic Club</td><td>0</td><td>10</td><td>5</td><td>11</td><td>30</td><td>36</td><td>0</td><td>0</td><td class="ultimos5"></td></tr>
+
+    <tr><td>3</td><td>Atlético de Madrid</td><td>0</td><td>15</td><td>6</td><td>5</td><td>43</td><td>23</td><td>0</td><td>0</td><td class="ultimos5"></td></tr>
+
+    <tr><td>4</td><td>FC Barcelona</td><td>0</td><td>21</td><td>1</td><td>4</td><td>71</td><td>26</td><td>0</td><td>0</td><td class="ultimos5"></td></tr>
+
+    <tr><td>5</td><td>Real Betis</td><td>0</td><td>11</td><td>10</td><td>5</td><td>42</td><td>32</td><td>0</td><td>0</td><td class="ultimos5"></td></tr>
+
+    <tr><td>6</td><td>Celta de Vigo</td><td>0</td><td>10</td><td>10</td><td>6</td><td>36</td><td>28</td><td>0</td><td>0</td><td class="ultimos5"></td></tr>
+
+    <tr><td>7</td><td>Getafe</td><td>0</td><td>8</td><td>5</td><td>12</td><td>20</td><td>29</td><td>0</td><td>0</td><td class="ultimos5"></td></tr>
+
+    <tr><td>8</td><td>Girona</td><td>0</td><td>7</td><td>9</td><td>10</td><td>27</td><td>42</td><td>0</td><td>0</td><td class="ultimos5"></td></tr>
+
+    <tr><td>9</td><td>Elche</td><td>0</td><td>5</td><td>11</td><td>10</td><td>34</td><td>39</td><td>0</td><td>0</td><td class="ultimos5"></td></tr>
+
+    <tr><td>10</td><td>Mallorca</td><td>0</td><td>6</td><td>6</td><td>14</td><td>29</td><td>42</td><td>0</td><td>0</td><td class="ultimos5"></td></tr>
+
+    <tr><td>11</td><td>Osasuna</td><td>0</td><td>9</td><td>6</td><td>11</td><td>30</td><td>30</td><td>0</td><td>0</td><td class="ultimos5"></td></tr>
+
+    <tr><td>12</td><td>Rayo Vallecano</td><td>0</td><td>6</td><td>9</td><td>10</td><td>23</td><td>32</td><td>0</td><td>0</td><td class="ultimos5"></td></tr>
+
+    <tr><td>13</td><td>Real Madrid</td><td>0</td><td>19</td><td>3</td><td>3</td><td>54</td><td>21</td><td>0</td><td>0</td><td class="ultimos5"></td></tr>
+
+    <tr><td>14</td><td>Real Sociedad</td><td>0</td><td>9</td><td>8</td><td>9</td><td>38</td><td>38</td><td>0</td><td>0</td><td class="ultimos5"></td></tr>
+
+    <tr><td>15</td><td>RCD Espanyol</td><td>0</td><td>10</td><td>6</td><td>10</td><td>33</td><td>39</td><td>0</td><td>0</td><td class="ultimos5"></td></tr>
+
+    <tr><td>16</td><td>Sevilla</td><td>0</td><td>8</td><td>6</td><td>12</td><td>34</td><td>41</td><td>0</td><td>0</td><td class="ultimos5"></td></tr>
+
+    <tr><td>17</td><td>Valencia CF</td><td>0</td><td>7</td><td>8</td><td>11</td><td>27</td><td>39</td><td>0</td><td>0</td><td class="ultimos5"></td></tr>
+
+    <tr><td>18</td><td>Villarreal</td><td>0</td><td>16</td><td>3</td><td>7</td><td>48</td><td>31</td><td>0</td><td>0</td><td class="ultimos5"></td></tr>
+
+    <tr><td>19</td><td>Levante</td><td>0</td><td>5</td><td>6</td><td>15</td><td>28</td><td>44</td><td>0</td><td>0</td><td class="ultimos5"></td></tr>
+
+    <tr><td>20</td><td>Real Oviedo</td><td>0</td><td>3</td><td>8</td><td>14</td><td>16</td><td>40</td><td>0</td><td>0</td><td class="ultimos5"></td></tr>
+
+    </tbody>
+</table>
     
-        <script>
-            function actualizarTabla() {
-                const table = document.getElementById('ligaTable');
-                const rows = Array.from(table.tBodies[0].rows);
-    
-                // Ordenar las filas según los puntos (columna 3)
-                rows.sort((a, b) => {
-                    const puntosA = parseInt(a.cells[2].textContent, 10);
-                    const puntosB = parseInt(b.cells[2].textContent, 10);
-                    return puntosB - puntosA;
-                });
-    
-                // Reasignar posiciones y actualizar estilos
-                rows.forEach((row, index) => {
-                    row.cells[0].textContent = index + 1; // Actualizar posición
-                    row.classList.remove('top-three', 'bottom-three'); // Limpiar estilos
-                    if (index < 3) row.classList.add('top-three'); // Top 3
-                    if (index >= rows.length - 3) row.classList.add('bottom-three'); // Últimos 3
-                    table.tBodies[0].appendChild(row); // Reorganizar la fila
-                });
-            }
-    
-            // Llama a la función cada vez que sea necesario (ejemplo: cada 5 segundos)
-            setInterval(actualizarTabla, 5000);
-    
-            // También puedes llamarla manualmente después de actualizar los datos
-            actualizarTabla();
-        </script>
+<script>
+
+let liga = JSON.parse(localStorage.getItem("liga")) || {};
+let partidos = JSON.parse(localStorage.getItem("partidos")) || [];
+let jornada = parseInt(localStorage.getItem("jornada")) || 26;
+
+// ===== GUARDAR =====
+function guardarDatos() {
+    localStorage.setItem("liga", JSON.stringify(liga));
+    localStorage.setItem("partidos", JSON.stringify(partidos));
+    localStorage.setItem("jornada", jornada);
+}
+
+// ===== INICIALIZAR DESDE TABLA =====
+function inicializarLiga() {
+
+    const filas = document.querySelectorAll('#ligaTable tbody tr');
+
+    filas.forEach(fila => {
+
+        const nombre = fila.cells[1].textContent.trim();
+
+        liga[nombre] = {
+            PG: parseInt(fila.cells[3].textContent),
+            PE: parseInt(fila.cells[4].textContent),
+            PP: parseInt(fila.cells[5].textContent),
+            GF: parseInt(fila.cells[6].textContent),
+            GC: parseInt(fila.cells[7].textContent),
+            historial: liga[nombre]?.historial || []
+        };
+    });
+
+    guardarDatos();
+    cargarSelectEquipos();
+}
+
+// ===== CARGAR SELECTS =====
+function cargarSelectEquipos() {
+
+    const selectLocal = document.getElementById("equipoLocal");
+    const selectVisitante = document.getElementById("equipoVisitante");
+
+    selectLocal.innerHTML = "";
+    selectVisitante.innerHTML = "";
+
+    Object.keys(liga).forEach(nombre => {
+
+        const option1 = document.createElement("option");
+        option1.value = nombre;
+        option1.textContent = nombre;
+
+        const option2 = option1.cloneNode(true);
+
+        selectLocal.appendChild(option1);
+        selectVisitante.appendChild(option2);
+    });
+}
+
+// ===== GUARDAR PARTIDO DESDE PANEL =====
+function guardarPartido() {
+
+    const local = document.getElementById("equipoLocal").value;
+    const visitante = document.getElementById("equipoVisitante").value;
+    const golesLocal = parseInt(document.getElementById("golesLocal").value);
+    const golesVisitante = parseInt(document.getElementById("golesVisitante").value);
+
+    if (local === visitante) return alert("Un equipo no puede jugar contra sí mismo");
+    if (isNaN(golesLocal) || isNaN(golesVisitante)) return alert("Introduce los goles");
+
+    registrarPartido(local, visitante, golesLocal, golesVisitante);
+
+    document.getElementById("golesLocal").value = "";
+    document.getElementById("golesVisitante").value = "";
+}
+
+// ===== REGISTRAR PARTIDO =====
+function registrarPartido(local, visitante, golesLocal, golesVisitante) {
+
+    const L = liga[local];
+    const V = liga[visitante];
+
+    L.GF += golesLocal;
+    L.GC += golesVisitante;
+    V.GF += golesVisitante;
+    V.GC += golesLocal;
+
+    if (golesLocal > golesVisitante) {
+        L.PG++; V.PP++;
+        L.historial.push("V");
+        V.historial.push("D");
+    } else if (golesLocal < golesVisitante) {
+        V.PG++; L.PP++;
+        V.historial.push("V");
+        L.historial.push("D");
+    } else {
+        L.PE++; V.PE++;
+        L.historial.push("E");
+        V.historial.push("E");
+    }
+
+    partidos.push({ jornada, local, visitante, golesLocal, golesVisitante });
+    jornada++;
+
+    guardarDatos();
+    actualizarTabla();
+    actualizarHistorial();
+}
+
+// ===== DESHACER =====
+function deshacerUltimoPartido() {
+
+    if (partidos.length === 0) return;
+
+    const ultimo = partidos.pop();
+    jornada--;
+
+    const L = liga[ultimo.local];
+    const V = liga[ultimo.visitante];
+
+    L.GF -= ultimo.golesLocal;
+    L.GC -= ultimo.golesVisitante;
+    V.GF -= ultimo.golesVisitante;
+    V.GC -= ultimo.golesLocal;
+
+    if (ultimo.golesLocal > ultimo.golesVisitante) {
+        L.PG--; V.PP--;
+    } else if (ultimo.golesLocal < ultimo.golesVisitante) {
+        V.PG--; L.PP--;
+    } else {
+        L.PE--; V.PE--;
+    }
+
+    L.historial.pop();
+    V.historial.pop();
+
+    guardarDatos();
+    actualizarTabla();
+    actualizarHistorial();
+}
+
+// ===== ACTUALIZAR HISTORIAL =====
+function actualizarHistorial() {
+
+    const contenedor = document.getElementById("historialPartidos");
+    contenedor.innerHTML = "";
+
+    partidos.slice().reverse().forEach(p => {
+
+        const div = document.createElement("div");
+        div.classList.add("partido-item");
+
+        div.textContent =
+            "J" + p.jornada + " - " +
+            p.local + " " + p.golesLocal +
+            " - " + p.golesVisitante + " " +
+            p.visitante;
+
+        contenedor.appendChild(div);
+    });
+}
+
+// ===== CALCULAR RACHA =====
+function calcularRacha(historial) {
+    return historial.slice(-5).reduce((acc, r) => {
+        if (r === "V") return acc + 3;
+        if (r === "E") return acc + 1;
+        return acc;
+    }, 0);
+}
+
+// ===== ACTUALIZAR TABLA =====
+function actualizarTabla() {
+
+    const filas = document.querySelectorAll('#ligaTable tbody tr');
+
+    filas.forEach(fila => {
+
+        const nombre = fila.cells[1].textContent.trim();
+        const equipo = liga[nombre];
+
+        const PJ = equipo.PG + equipo.PE + equipo.PP;
+        const DF = equipo.GF - equipo.GC;
+        const PTS = equipo.PG * 3 + equipo.PE;
+
+        fila.cells[2].textContent = PJ;
+        fila.cells[3].textContent = equipo.PG;
+        fila.cells[4].textContent = equipo.PE;
+        fila.cells[5].textContent = equipo.PP;
+        fila.cells[6].textContent = equipo.GF;
+        fila.cells[7].textContent = equipo.GC;
+        fila.cells[8].textContent = DF;
+        fila.cells[9].textContent = PTS;
+
+        actualizarUltimos5(fila, equipo.historial);
+    });
+
+    ordenarTabla();
+}
+
+// ===== ÚLTIMOS 5 =====
+function actualizarUltimos5(fila, historial) {
+
+    const celda = fila.querySelector('.ultimos5');
+    celda.innerHTML = "";
+
+    historial.slice(-5).forEach(r => {
+
+        const div = document.createElement("div");
+        div.classList.add("forma");
+
+        if (r === "V") { div.classList.add("victoria"); div.textContent = "V"; }
+        if (r === "E") { div.classList.add("empate"); div.textContent = "E"; }
+        if (r === "D") { div.classList.add("derrota"); div.textContent = "D"; }
+
+        celda.appendChild(div);
+    });
+}
+
+// ===== ORDENAR =====
+function ordenarTabla() {
+
+    const table = document.getElementById('ligaTable');
+    const rows = Array.from(table.tBodies[0].rows);
+
+    rows.sort((a, b) => {
+
+        const A = liga[a.cells[1].textContent.trim()];
+        const B = liga[b.cells[1].textContent.trim()];
+
+        const ptsA = A.PG * 3 + A.PE;
+        const ptsB = B.PG * 3 + B.PE;
+
+        if (ptsB !== ptsA) return ptsB - ptsA;
+
+        const dfA = A.GF - A.GC;
+        const dfB = B.GF - B.GC;
+
+        if (dfB !== dfA) return dfB - dfA;
+
+        return calcularRacha(B.historial) - calcularRacha(A.historial);
+    });
+
+    rows.forEach((row, index) => {
+        row.cells[0].textContent = index + 1;
+        table.tBodies[0].appendChild(row);
+    });
+}
+
+// ===== INICIO =====
+inicializarLiga();
+actualizarTabla();
+actualizarHistorial();
+/*async function guardarPartido() {
+
+  const response = await fetch('/api/registrar', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      local,
+      visitante,
+      golesLocal,
+      golesVisitante
+    })
+  })
+
+  const data = await response.json()
+
+  if (data.success) {
+    alert("Partido guardado en base de datos")
+  }
+}*/
+
+</script>
+
     </body>
     <footer>
         <p>© 2024 Pavel775. Todos los derechos reservados.</p>
