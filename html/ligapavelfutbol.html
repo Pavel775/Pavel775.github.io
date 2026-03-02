@@ -297,53 +297,265 @@ tbody tr:nth-last-child(-n+3) {
 
     </tbody>
 </table>
-
+    
 <script>
 
-// ===============================
-// CARGAR EQUIPOS EN SELECTS
-// ===============================
-async function cargarEquipos() {
+let liga = JSON.parse(localStorage.getItem("liga")) || {};
+let partidos = JSON.parse(localStorage.getItem("partidos")) || [];
+let jornada = parseInt(localStorage.getItem("jornada")) || 26;
 
-  const response = await fetch('/api/clasificacion')
-  const equipos = await response.json()
-
-  const selectLocal = document.getElementById("equipoLocal")
-  const selectVisitante = document.getElementById("equipoVisitante")
-
-  selectLocal.innerHTML = ""
-  selectVisitante.innerHTML = ""
-
-  equipos.forEach(e => {
-
-    const option1 = document.createElement("option")
-    option1.value = e.nombre
-    option1.textContent = e.nombre
-
-    const option2 = option1.cloneNode(true)
-
-    selectLocal.appendChild(option1)
-    selectVisitante.appendChild(option2)
-
-  })
+// ===== GUARDAR =====
+function guardarDatos() {
+    localStorage.setItem("liga", JSON.stringify(liga));
+    localStorage.setItem("partidos", JSON.stringify(partidos));
+    localStorage.setItem("jornada", jornada);
 }
 
+// ===== INICIALIZAR DESDE TABLA =====
+function inicializarLiga() {
 
-// ===============================
-// GUARDAR PARTIDO EN SUPABASE
-// ===============================
+    const filas = document.querySelectorAll('#ligaTable tbody tr');
+
+    filas.forEach(fila => {
+
+        const nombre = fila.cells[1].textContent.trim();
+
+        liga[nombre] = {
+            PG: parseInt(fila.cells[3].textContent),
+            PE: parseInt(fila.cells[4].textContent),
+            PP: parseInt(fila.cells[5].textContent),
+            GF: parseInt(fila.cells[6].textContent),
+            GC: parseInt(fila.cells[7].textContent),
+            historial: liga[nombre]?.historial || []
+        };
+    });
+
+    guardarDatos();
+    cargarSelectEquipos();
+}
+
+// ===== CARGAR SELECTS =====
+function cargarSelectEquipos() {
+
+    const selectLocal = document.getElementById("equipoLocal");
+    const selectVisitante = document.getElementById("equipoVisitante");
+
+    selectLocal.innerHTML = "";
+    selectVisitante.innerHTML = "";
+
+    Object.keys(liga).forEach(nombre => {
+
+        const option1 = document.createElement("option");
+        option1.value = nombre;
+        option1.textContent = nombre;
+
+        const option2 = option1.cloneNode(true);
+
+        selectLocal.appendChild(option1);
+        selectVisitante.appendChild(option2);
+    });
+}
+
+// ===== GUARDAR PARTIDO DESDE PANEL =====
+function guardarPartido() {
+
+    const local = document.getElementById("equipoLocal").value;
+    const visitante = document.getElementById("equipoVisitante").value;
+    const golesLocal = parseInt(document.getElementById("golesLocal").value);
+    const golesVisitante = parseInt(document.getElementById("golesVisitante").value);
+
+    if (local === visitante) return alert("Un equipo no puede jugar contra sí mismo");
+    if (isNaN(golesLocal) || isNaN(golesVisitante)) return alert("Introduce los goles");
+
+    registrarPartido(local, visitante, golesLocal, golesVisitante);
+
+    document.getElementById("golesLocal").value = "";
+    document.getElementById("golesVisitante").value = "";
+}
+
+// ===== REGISTRAR PARTIDO =====
+function registrarPartido(local, visitante, golesLocal, golesVisitante) {
+
+    const L = liga[local];
+    const V = liga[visitante];
+
+    L.GF += golesLocal;
+    L.GC += golesVisitante;
+    V.GF += golesVisitante;
+    V.GC += golesLocal;
+
+    if (golesLocal > golesVisitante) {
+        L.PG++; V.PP++;
+        L.historial.push("V");
+        V.historial.push("D");
+    } else if (golesLocal < golesVisitante) {
+        V.PG++; L.PP++;
+        V.historial.push("V");
+        L.historial.push("D");
+    } else {
+        L.PE++; V.PE++;
+        L.historial.push("E");
+        V.historial.push("E");
+    }
+
+    partidos.push({ jornada, local, visitante, golesLocal, golesVisitante });
+    jornada++;
+
+    guardarDatos();
+    actualizarTabla();
+    actualizarHistorial();
+}
+
+// ===== DESHACER =====
+function deshacerUltimoPartido() {
+
+    if (partidos.length === 0) return;
+
+    const ultimo = partidos.pop();
+    jornada--;
+
+    const L = liga[ultimo.local];
+    const V = liga[ultimo.visitante];
+
+    L.GF -= ultimo.golesLocal;
+    L.GC -= ultimo.golesVisitante;
+    V.GF -= ultimo.golesVisitante;
+    V.GC -= ultimo.golesLocal;
+
+    if (ultimo.golesLocal > ultimo.golesVisitante) {
+        L.PG--; V.PP--;
+    } else if (ultimo.golesLocal < ultimo.golesVisitante) {
+        V.PG--; L.PP--;
+    } else {
+        L.PE--; V.PE--;
+    }
+
+    L.historial.pop();
+    V.historial.pop();
+
+    guardarDatos();
+    actualizarTabla();
+    actualizarHistorial();
+}
+
+// ===== ACTUALIZAR HISTORIAL =====
+function actualizarHistorial() {
+
+    const contenedor = document.getElementById("historialPartidos");
+    contenedor.innerHTML = "";
+
+    partidos.slice().reverse().forEach(p => {
+
+        const div = document.createElement("div");
+        div.classList.add("partido-item");
+
+        div.textContent =
+            "J" + p.jornada + " - " +
+            p.local + " " + p.golesLocal +
+            " - " + p.golesVisitante + " " +
+            p.visitante;
+
+        contenedor.appendChild(div);
+    });
+}
+
+// ===== CALCULAR RACHA =====
+function calcularRacha(historial) {
+    return historial.slice(-5).reduce((acc, r) => {
+        if (r === "V") return acc + 3;
+        if (r === "E") return acc + 1;
+        return acc;
+    }, 0);
+}
+
+// ===== ACTUALIZAR TABLA =====
+function actualizarTabla() {
+
+    const filas = document.querySelectorAll('#ligaTable tbody tr');
+
+    filas.forEach(fila => {
+
+        const nombre = fila.cells[1].textContent.trim();
+        const equipo = liga[nombre];
+
+        const PJ = equipo.PG + equipo.PE + equipo.PP;
+        const DF = equipo.GF - equipo.GC;
+        const PTS = equipo.PG * 3 + equipo.PE;
+
+        fila.cells[2].textContent = PJ;
+        fila.cells[3].textContent = equipo.PG;
+        fila.cells[4].textContent = equipo.PE;
+        fila.cells[5].textContent = equipo.PP;
+        fila.cells[6].textContent = equipo.GF;
+        fila.cells[7].textContent = equipo.GC;
+        fila.cells[8].textContent = DF;
+        fila.cells[9].textContent = PTS;
+
+        actualizarUltimos5(fila, equipo.historial);
+    });
+
+    ordenarTabla();
+}
+
+// ===== ÚLTIMOS 5 =====
+function actualizarUltimos5(fila, historial) {
+
+    const celda = fila.querySelector('.ultimos5');
+    celda.innerHTML = "";
+
+    historial.slice(-5).forEach(r => {
+
+        const div = document.createElement("div");
+        div.classList.add("forma");
+
+        if (r === "V") { div.classList.add("victoria"); div.textContent = "V"; }
+        if (r === "E") { div.classList.add("empate"); div.textContent = "E"; }
+        if (r === "D") { div.classList.add("derrota"); div.textContent = "D"; }
+
+        celda.appendChild(div);
+    });
+}
+
+// ===== ORDENAR =====
+function ordenarTabla() {
+
+    const table = document.getElementById('ligaTable');
+    const rows = Array.from(table.tBodies[0].rows);
+
+    rows.sort((a, b) => {
+
+        const A = liga[a.cells[1].textContent.trim()];
+        const B = liga[b.cells[1].textContent.trim()];
+
+        const ptsA = A.PG * 3 + A.PE;
+        const ptsB = B.PG * 3 + B.PE;
+
+        if (ptsB !== ptsA) return ptsB - ptsA;
+
+        const dfA = A.GF - A.GC;
+        const dfB = B.GF - B.GC;
+
+        if (dfB !== dfA) return dfB - dfA;
+
+        return calcularRacha(B.historial) - calcularRacha(A.historial);
+    });
+
+    rows.forEach((row, index) => {
+        row.cells[0].textContent = index + 1;
+        table.tBodies[0].appendChild(row);
+    });
+}
+
+// ===== INICIO =====
+inicializarLiga();
+actualizarTabla();
+actualizarHistorial();
 async function guardarPartido() {
 
-  const local = document.getElementById("equipoLocal").value
-  const visitante = document.getElementById("equipoVisitante").value
-  const golesLocal = parseInt(document.getElementById("golesLocal").value)
-  const golesVisitante = parseInt(document.getElementById("golesVisitante").value)
-
-  if (local === visitante)
-    return alert("Un equipo no puede jugar contra sí mismo")
-
-  if (isNaN(golesLocal) || isNaN(golesVisitante))
-    return alert("Introduce los goles")
+  const local = document.getElementById("equipoLocal").value;
+  const visitante = document.getElementById("equipoVisitante").value;
+  const golesLocal = parseInt(document.getElementById("golesLocal").value);
+  const golesVisitante = parseInt(document.getElementById("golesVisitante").value);
 
   const response = await fetch('/api/registrar', {
     method: 'POST',
@@ -354,26 +566,17 @@ async function guardarPartido() {
       golesLocal,
       golesVisitante
     })
-  })
+  });
 
-  const data = await response.json()
+  const data = await response.json();
 
   if (data.success) {
-    alert("Partido guardado correctamente")
-    document.getElementById("golesLocal").value = ""
-    document.getElementById("golesVisitante").value = ""
-
-    await cargarTabla()
-    await cargarHistorial()
+    alert("Partido guardado en base de datos");
+    location.reload();
   } else {
-    alert("Error al guardar partido")
+    alert("Error al guardar");
   }
 }
-
-
-// ===============================
-// CARGAR CLASIFICACIÓN
-// ===============================
 async function cargarTabla() {
 
   const response = await fetch('/api/clasificacion')
@@ -386,8 +589,6 @@ async function cargarTabla() {
 
     const fila = document.createElement('tr')
 
-    const ultimos5 = e.historial.slice(-5)
-
     fila.innerHTML = `
       <td>${index+1}</td>
       <td>${e.nombre}</td>
@@ -399,61 +600,14 @@ async function cargarTabla() {
       <td>${e.gc}</td>
       <td>${e.dg}</td>
       <td>${e.pts}</td>
-      <td class="ultimos5"></td>
+      <td>${e.historial.slice(-5).join(' ')}</td>
     `
-
-    const celdaUltimos5 = fila.querySelector('.ultimos5')
-
-    ultimos5.forEach(r => {
-
-      const div = document.createElement("div")
-      div.classList.add("forma")
-
-      if (r === "V") { div.classList.add("victoria"); div.textContent = "V" }
-      if (r === "E") { div.classList.add("empate"); div.textContent = "E" }
-      if (r === "D") { div.classList.add("derrota"); div.textContent = "D" }
-
-      celdaUltimos5.appendChild(div)
-
-    })
 
     tbody.appendChild(fila)
   })
 }
 
-
-// ===============================
-// CARGAR HISTORIAL DE PARTIDOS
-// ===============================
-async function cargarHistorial() {
-
-  const response = await fetch('/api/partidos')
-  const partidos = await response.json()
-
-  const contenedor = document.getElementById("historialPartidos")
-  contenedor.innerHTML = ""
-
-  partidos.reverse().forEach(p => {
-
-    const div = document.createElement("div")
-    div.classList.add("partido-item")
-
-    div.textContent =
-      p.local + " " + p.golesLocal +
-      " - " + p.golesVisitante + " " +
-      p.visitante
-
-    contenedor.appendChild(div)
-  })
-}
-
-
-// ===============================
-// INICIO
-// ===============================
-cargarEquipos()
 cargarTabla()
-cargarHistorial()
 
 </script>
 
