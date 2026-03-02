@@ -579,15 +579,35 @@ async function guardarPartido() {
 }
 async function cargarTabla() {
 
-  const response = await fetch('/api/obtenerTabla');
-  const equipos = await response.json();
+  const response = await fetch('/api/clasificacion')
+  const equipos = await response.json()
 
-  console.log(equipos);
+  const tbody = document.querySelector('#ligaTable tbody')
+  tbody.innerHTML = ''
 
-  // Aquí puedes renderizar dinámicamente la tabla
+  equipos.forEach((e, index) => {
+
+    const fila = document.createElement('tr')
+
+    fila.innerHTML = `
+      <td>${index+1}</td>
+      <td>${e.nombre}</td>
+      <td>${e.pg + e.pe + e.pp}</td>
+      <td>${e.pg}</td>
+      <td>${e.pe}</td>
+      <td>${e.pp}</td>
+      <td>${e.gf}</td>
+      <td>${e.gc}</td>
+      <td>${e.dg}</td>
+      <td>${e.pts}</td>
+      <td>${e.historial.slice(-5).join(' ')}</td>
+    `
+
+    tbody.appendChild(fila)
+  })
 }
 
-cargarTabla();
+cargarTabla()
 
 </script>
 
