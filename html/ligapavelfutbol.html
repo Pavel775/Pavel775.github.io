@@ -550,6 +550,25 @@ function ordenarTabla() {
 inicializarLiga();
 actualizarTabla();
 actualizarHistorial();
+async function guardarPartido() {
+
+  const response = await fetch('/api/registrar', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      local,
+      visitante,
+      golesLocal,
+      golesVisitante
+    })
+  })
+
+  const data = await response.json()
+
+  if (data.success) {
+    alert("Partido guardado en base de datos")
+  }
+}
 
 </script>
 
