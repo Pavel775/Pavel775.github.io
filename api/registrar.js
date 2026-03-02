@@ -13,13 +13,21 @@ export default async function handler(req, res) {
 
   const { local, visitante, golesLocal, golesVisitante } = req.body
 
-  const { data, error } = await supabase
+  // Insertar partido
+  const { error: errorPartido } = await supabase
     .from('partidos')
     .insert([
-      { local, visitante, goles_local: golesLocal, goles_visitante: golesVisitante }
+      {
+        local,
+        visitante,
+        goles_local: golesLocal,
+        goles_visitante: golesVisitante
+      }
     ])
 
-  if (error) return res.status(500).json({ error })
+  if (errorPartido) {
+    return res.status(500).json({ error: errorPartido })
+  }
 
   return res.status(200).json({ success: true })
 }

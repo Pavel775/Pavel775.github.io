@@ -22,6 +22,7 @@
                 </li>
                 <li>
                     <a href="/html/ligapavelfutbol.html">Liga Española</a>
+                    <a href="/html/ligaeditable.html">Liga Volta</a>
                 </li>
             </ul>
         </nav>
@@ -549,7 +550,12 @@ function ordenarTabla() {
 inicializarLiga();
 actualizarTabla();
 actualizarHistorial();
-/*async function guardarPartido() {
+async function guardarPartido() {
+
+  const local = document.getElementById("equipoLocal").value;
+  const visitante = document.getElementById("equipoVisitante").value;
+  const golesLocal = parseInt(document.getElementById("golesLocal").value);
+  const golesVisitante = parseInt(document.getElementById("golesVisitante").value);
 
   const response = await fetch('/api/registrar', {
     method: 'POST',
@@ -560,14 +566,28 @@ actualizarHistorial();
       golesLocal,
       golesVisitante
     })
-  })
+  });
 
-  const data = await response.json()
+  const data = await response.json();
 
   if (data.success) {
-    alert("Partido guardado en base de datos")
+    alert("Partido guardado en base de datos");
+    location.reload();
+  } else {
+    alert("Error al guardar");
   }
-}*/
+}
+async function cargarTabla() {
+
+  const response = await fetch('/api/obtenerTabla');
+  const equipos = await response.json();
+
+  console.log(equipos);
+
+  // Aquí puedes renderizar dinámicamente la tabla
+}
+
+cargarTabla();
 
 </script>
 
