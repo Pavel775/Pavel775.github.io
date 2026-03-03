@@ -427,7 +427,7 @@ async function cargarTabla() {
 // ===============================
 async function cargarHistorial() {
 
-  const response = await fetch('/api/partidos')
+  const response = await fetch('/api/obtenerTabla')
   const partidos = await response.json()
 
   const contenedor = document.getElementById("historialPartidos")
