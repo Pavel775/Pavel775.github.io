@@ -57,8 +57,8 @@ export default async function handler(req, res) {
   equipoLocal.dg = equipoLocal.gf - equipoLocal.gc
   equipoVisitante.dg = equipoVisitante.gf - equipoVisitante.gc
 
-  await supabase.from('clasificacion').update(equipoLocal).eq('id', equipoLocal.id)
-  await supabase.from('clasificacion').update(equipoVisitante).eq('id', equipoVisitante.id)
+  await supabase.from('equipos').update(equipoLocal).eq('id', equipoLocal.id)
+  await supabase.from('equipos').update(equipoVisitante).eq('id', equipoVisitante.id)
 
   res.status(200).json({ success: true })
 }

@@ -8,13 +8,12 @@ const supabase = createClient(
 export default async function handler(req, res) {
 
   const { data, error } = await supabase
-    .from('clasificacion')
+    .from('equipos')   // 👈 IMPORTANTE
     .select('*')
 
   if (error)
     return res.status(500).json({ error: error.message })
 
-  // Recalcular dinámicamente
   const equiposCalculados = data.map(e => {
 
     const pj = e.pg + e.pe + e.pp
@@ -27,7 +26,6 @@ export default async function handler(req, res) {
     }
   })
 
-  // Ordenar manualmente
   equiposCalculados.sort((a, b) =>
     b.pts - a.pts ||
     b.dg - a.dg ||
