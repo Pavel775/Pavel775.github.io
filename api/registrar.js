@@ -12,9 +12,6 @@ export default async function handler(req, res) {
 
   const { local, visitante, golesLocal, golesVisitante } = req.body
 
-  if (local === visitante)
-    return res.status(400).json({ error: 'Un equipo no puede jugar contra sí mismo' })
-
   const { data: equipos } = await supabase
     .from('equipos')
     .select('*')
@@ -23,10 +20,6 @@ export default async function handler(req, res) {
   const equipoLocal = equipos.find(e => e.nombre === local)
   const equipoVisitante = equipos.find(e => e.nombre === visitante)
 
-  if (!equipoLocal || !equipoVisitante)
-    return res.status(400).json({ error: 'Equipo no encontrado' })
-
-  // Calcular nuevos valores
   let updateLocal = {
     pj: equipoLocal.pj + 1,
     gf: equipoLocal.gf + golesLocal,
@@ -42,19 +35,16 @@ export default async function handler(req, res) {
   if (golesLocal > golesVisitante) {
     updateLocal.pg = equipoLocal.pg + 1
     updateLocal.pts = equipoLocal.pts + 3
-
     updateVisitante.pp = equipoVisitante.pp + 1
   }
   else if (golesLocal < golesVisitante) {
     updateVisitante.pg = equipoVisitante.pg + 1
     updateVisitante.pts = equipoVisitante.pts + 3
-
     updateLocal.pp = equipoLocal.pp + 1
   }
   else {
     updateLocal.pe = equipoLocal.pe + 1
     updateLocal.pts = equipoLocal.pts + 1
-
     updateVisitante.pe = equipoVisitante.pe + 1
     updateVisitante.pts = equipoVisitante.pts + 1
   }

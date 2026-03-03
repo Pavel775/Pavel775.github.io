@@ -254,59 +254,52 @@ tbody tr:nth-last-child(-n+3) {
         </tr>
     </thead>
     <tbody>
-
-    <tr><td>1</td><td>Alavés</td><td>0</td><td>7</td><td>6</td><td>13</td><td>23</td><td>34</td><td>0</td><td>0</td><td class="ultimos5"></td></tr>
-
-    <tr><td>2</td><td>Athletic Club</td><td>0</td><td>10</td><td>5</td><td>11</td><td>30</td><td>36</td><td>0</td><td>0</td><td class="ultimos5"></td></tr>
-
-    <tr><td>3</td><td>Atlético de Madrid</td><td>0</td><td>15</td><td>6</td><td>5</td><td>43</td><td>23</td><td>0</td><td>0</td><td class="ultimos5"></td></tr>
-
-    <tr><td>4</td><td>FC Barcelona</td><td>0</td><td>21</td><td>1</td><td>4</td><td>71</td><td>26</td><td>0</td><td>0</td><td class="ultimos5"></td></tr>
-
-    <tr><td>5</td><td>Real Betis</td><td>0</td><td>11</td><td>10</td><td>5</td><td>42</td><td>32</td><td>0</td><td>0</td><td class="ultimos5"></td></tr>
-
-    <tr><td>6</td><td>Celta de Vigo</td><td>0</td><td>10</td><td>10</td><td>6</td><td>36</td><td>28</td><td>0</td><td>0</td><td class="ultimos5"></td></tr>
-
-    <tr><td>7</td><td>Getafe</td><td>0</td><td>8</td><td>5</td><td>12</td><td>20</td><td>29</td><td>0</td><td>0</td><td class="ultimos5"></td></tr>
-
-    <tr><td>8</td><td>Girona</td><td>0</td><td>7</td><td>9</td><td>10</td><td>27</td><td>42</td><td>0</td><td>0</td><td class="ultimos5"></td></tr>
-
-    <tr><td>9</td><td>Elche</td><td>0</td><td>5</td><td>11</td><td>10</td><td>34</td><td>39</td><td>0</td><td>0</td><td class="ultimos5"></td></tr>
-
-    <tr><td>10</td><td>Mallorca</td><td>0</td><td>6</td><td>6</td><td>14</td><td>29</td><td>42</td><td>0</td><td>0</td><td class="ultimos5"></td></tr>
-
-    <tr><td>11</td><td>Osasuna</td><td>0</td><td>9</td><td>6</td><td>11</td><td>30</td><td>30</td><td>0</td><td>0</td><td class="ultimos5"></td></tr>
-
-    <tr><td>12</td><td>Rayo Vallecano</td><td>0</td><td>6</td><td>9</td><td>10</td><td>23</td><td>32</td><td>0</td><td>0</td><td class="ultimos5"></td></tr>
-
-    <tr><td>13</td><td>Real Madrid</td><td>0</td><td>19</td><td>3</td><td>3</td><td>54</td><td>21</td><td>0</td><td>0</td><td class="ultimos5"></td></tr>
-
-    <tr><td>14</td><td>Real Sociedad</td><td>0</td><td>9</td><td>8</td><td>9</td><td>38</td><td>38</td><td>0</td><td>0</td><td class="ultimos5"></td></tr>
-
-    <tr><td>15</td><td>RCD Espanyol</td><td>0</td><td>10</td><td>6</td><td>10</td><td>33</td><td>39</td><td>0</td><td>0</td><td class="ultimos5"></td></tr>
-
-    <tr><td>16</td><td>Sevilla</td><td>0</td><td>8</td><td>6</td><td>12</td><td>34</td><td>41</td><td>0</td><td>0</td><td class="ultimos5"></td></tr>
-
-    <tr><td>17</td><td>Valencia CF</td><td>0</td><td>7</td><td>8</td><td>11</td><td>27</td><td>39</td><td>0</td><td>0</td><td class="ultimos5"></td></tr>
-
-    <tr><td>18</td><td>Villarreal</td><td>0</td><td>16</td><td>3</td><td>7</td><td>48</td><td>31</td><td>0</td><td>0</td><td class="ultimos5"></td></tr>
-
-    <tr><td>19</td><td>Levante</td><td>0</td><td>5</td><td>6</td><td>15</td><td>28</td><td>44</td><td>0</td><td>0</td><td class="ultimos5"></td></tr>
-
-    <tr><td>20</td><td>Real Oviedo</td><td>0</td><td>3</td><td>8</td><td>14</td><td>16</td><td>40</td><td>0</td><td>0</td><td class="ultimos5"></td></tr>
-
     </tbody>
 </table>
     
 <script>
 
 // ===============================
-// CARGAR EQUIPOS EN SELECTS
+// CARGAR CLASIFICACIÓN
 // ===============================
-async function cargarEquipos() {
+async function cargarTabla() {
 
-  const response = await fetch('/api/clasificacion')
-  const equipos = await response.json()
+  const res = await fetch('/api/clasificacion')
+  const equipos = await res.json()
+
+  const tbody = document.querySelector("#ligaTable tbody")
+  tbody.innerHTML = ""
+
+  equipos.forEach((e, index) => {
+
+    const row = `
+      <tr>
+        <td>${index + 1}</td>
+        <td>${e.nombre}</td>
+        <td>${e.pj}</td>
+        <td>${e.pg}</td>
+        <td>${e.pe}</td>
+        <td>${e.pp}</td>
+        <td>${e.gf}</td>
+        <td>${e.gc}</td>
+        <td>${e.gf - e.gc}</td>
+        <td>${e.pts}</td>
+        <td></td>
+      </tr>
+    `
+
+    tbody.innerHTML += row
+  })
+}
+
+
+// ===============================
+// CARGAR EQUIPOS EN SELECT
+// ===============================
+async function cargarEquiposSelect() {
+
+  const res = await fetch('/api/clasificacion')
+  const equipos = await res.json()
 
   const selectLocal = document.getElementById("equipoLocal")
   const selectVisitante = document.getElementById("equipoVisitante")
@@ -315,22 +308,14 @@ async function cargarEquipos() {
   selectVisitante.innerHTML = ""
 
   equipos.forEach(e => {
-
-    const option1 = document.createElement("option")
-    option1.value = e.nombre
-    option1.textContent = e.nombre
-
-    const option2 = option1.cloneNode(true)
-
-    selectLocal.appendChild(option1)
-    selectVisitante.appendChild(option2)
-
+    selectLocal.innerHTML += `<option value="${e.nombre}">${e.nombre}</option>`
+    selectVisitante.innerHTML += `<option value="${e.nombre}">${e.nombre}</option>`
   })
 }
 
 
 // ===============================
-// GUARDAR PARTIDO EN SUPABASE
+// GUARDAR PARTIDO
 // ===============================
 async function guardarPartido() {
 
@@ -362,93 +347,18 @@ async function guardarPartido() {
     alert("Partido guardado correctamente")
     document.getElementById("golesLocal").value = ""
     document.getElementById("golesVisitante").value = ""
-
-    await cargarTabla()
-    await cargarHistorial()
+    cargarTabla()
   } else {
-    alert("Error al guardar partido")
+    alert(data.error || "Error al guardar partido")
   }
 }
 
-
-// ===============================
-// CARGAR CLASIFICACIÓN
-// ===============================
-async function cargarTabla() {
-  const res = await fetch('/api/clasificacion')
-  const equipos = await res.json()
-
-  const tbody = document.querySelector("#ligaTable tbody")
-  tbody.innerHTML = ""
-
-  equipos.forEach((e, index) => {
-
-    const row = `
-      <tr>
-        <td>${index + 1}</td>
-        <td>${e.nombre}</td>
-        <td>${e.pj}</td>
-        <td>${e.pg}</td>
-        <td>${e.pe}</td>
-        <td>${e.pp}</td>
-        <td>${e.gf}</td>
-        <td>${e.gc}</td>
-        <td>${e.gf - e.gc}</td>
-        <td>${e.pts}</td>
-      </tr>
-    `
-
-    tbody.innerHTML += row
-  })
-}
-
-
-// ===============================
-// CARGAR HISTORIAL DE PARTIDOS
-// ===============================
-//async function cargarHistorial() {
-
-  const response = await fetch('/api/obtenerTabla')
-  const partidos = await response.json()
-
-  const contenedor = document.getElementById("historialPartidos")
-  contenedor.innerHTML = ""
-
-  partidos.reverse().forEach(p => {
-
-    const div = document.createElement("div")
-    div.classList.add("partido-item")
-
-    div.textContent =
-      p.local + " " + p.golesLocal +
-      " - " + p.golesVisitante + " " +
-      p.visitante
-
-    contenedor.appendChild(div)
-  })
-}
-async function cargarEquiposSelect() {
-  const res = await fetch('/api/clasificacion')
-  const equipos = await res.json()
-
-  const selectLocal = document.getElementById("equipoLocal")
-  const selectVisitante = document.getElementById("equipoVisitante")
-
-  selectLocal.innerHTML = ""
-  selectVisitante.innerHTML = ""
-
-  equipos.forEach(e => {
-    selectLocal.innerHTML += `<option value="${e.nombre}">${e.nombre}</option>`
-    selectVisitante.innerHTML += `<option value="${e.nombre}">${e.nombre}</option>`
-  })
-}
 
 // ===============================
 // INICIO
 // ===============================
 cargarTabla()
 cargarEquiposSelect()
-//cargarHistorial()
 
 </script>
 
