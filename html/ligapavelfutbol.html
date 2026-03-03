@@ -446,12 +446,35 @@ async function cargarHistorial() {
     contenedor.appendChild(div)
   })
 }
+async function cargarEquiposSelect() {
 
+  const response = await fetch('/api/clasificacion')
+  const equipos = await response.json()
+
+  const selectLocal = document.getElementById("equipoLocal")
+  const selectVisitante = document.getElementById("equipoVisitante")
+
+  selectLocal.innerHTML = ""
+  selectVisitante.innerHTML = ""
+
+  equipos.forEach(e => {
+
+    const option1 = document.createElement("option")
+    option1.value = e.nombre
+    option1.textContent = e.nombre
+
+    const option2 = option1.cloneNode(true)
+
+    selectLocal.appendChild(option1)
+    selectVisitante.appendChild(option2)
+
+  })
+}
 
 // ===============================
 // INICIO
 // ===============================
-cargarEquipos()
+cargarEquiposSelect()
 cargarTabla()
 cargarHistorial()
 
