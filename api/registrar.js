@@ -2,25 +2,63 @@ import { createClient } from '@supabase/supabase-js'
 
 const supabase = createClient(
   process.env.SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_ROLE
+  process.env.SUPABASE_KEY
 )
 
 export default async function handler(req, res) {
 
-  if (req.method !== 'POST') {
+  if (req.method !== 'POST')
     return res.status(405).json({ error: 'Method not allowed' })
-  }
 
   const { local, visitante, golesLocal, golesVisitante } = req.body
 
-  const { error } = await supabase.rpc('registrar_partido', {
-    p_local: local,
-    p_visitante: visitante,
-    p_goles_local: golesLocal,
-    p_goles_visitante: golesVisitante
-  })
+  const { data: equipos } = await supabase
+    .from('equipos')
+    .select('*')
+    .in('nombre', [local, visitante])
 
-  if (error) return res.status(500).json({ error })
+  const equipoLocal = equipos.find(e => e.nombre === local)
+  const equipoVisitante = equipos.find(e => e.nombre === visitante)
 
-  return res.status(200).json({ success: true })
+  if (!equipoLocal || !equipoVisitante)
+    return res.status(400).json({ error: 'Equipo no encontrado' })
+
+  equipoLocal.gf += golesLocal
+  equipoLocal.gc += golesVisitante
+  equipoVisitante.gf += golesVisitante
+  equipoVisitante.gc += golesLocal
+
+  if (golesLocal > golesVisitante) {
+    equipoLocal.pg++
+    equipoLocal.pts += 3
+    equipoVisitante.pp++
+    equipoLocal.historial.push("V")
+    equipoVisitante.historial.push("D")
+  }
+  else if (golesLocal < golesVisitante) {
+    equipoVisitante.pg++
+    equipoVisitante.pts += 3
+    equipoLocal.pp++
+    equipoLocal.historial.push("D")
+    equipoVisitante.historial.push("V")
+  }
+  else {
+    equipoLocal.pe++
+    equipoVisitante.pe++
+    equipoLocal.pts++
+    equipoVisitante.pts++
+    equipoLocal.historial.push("E")
+    equipoVisitante.historial.push("E")
+  }
+
+  equipoLocal.historial = equipoLocal.historial.slice(-5)
+  equipoVisitante.historial = equipoVisitante.historial.slice(-5)
+
+  equipoLocal.dg = equipoLocal.gf - equipoLocal.gc
+  equipoVisitante.dg = equipoVisitante.gf - equipoVisitante.gc
+
+  await supabase.from('equipos').update(equipoLocal).eq('id', equipoLocal.id)
+  await supabase.from('equipos').update(equipoVisitante).eq('id', equipoVisitante.id)
+
+  res.status(200).json({ success: true })
 }
