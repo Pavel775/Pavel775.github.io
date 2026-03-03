@@ -375,49 +375,30 @@ async function guardarPartido() {
 // CARGAR CLASIFICACIÓN
 // ===============================
 async function cargarTabla() {
+  const res = await fetch('/api/clasificacion')
+  const equipos = await res.json()
 
-  const response = await fetch('/api/clasificacion')
-  const equipos = await response.json()
-
-  const tbody = document.querySelector('#ligaTable tbody')
-  tbody.innerHTML = ''
+  const tbody = document.querySelector("#ligaTable tbody")
+  tbody.innerHTML = ""
 
   equipos.forEach((e, index) => {
 
-    const fila = document.createElement('tr')
-
-    const ultimos5 = e.historial.slice(-5)
-
-    fila.innerHTML = `
-      <td>${index+1}</td>
-      <td>${e.nombre}</td>
-      <td>${e.pg + e.pe + e.pp}</td>
-      <td>${e.pg}</td>
-      <td>${e.pe}</td>
-      <td>${e.pp}</td>
-      <td>${e.gf}</td>
-      <td>${e.gc}</td>
-      <td>${e.dg}</td>
-      <td>${e.pts}</td>
-      <td class="ultimos5"></td>
+    const row = `
+      <tr>
+        <td>${index + 1}</td>
+        <td>${e.nombre}</td>
+        <td>${e.pj}</td>
+        <td>${e.pg}</td>
+        <td>${e.pe}</td>
+        <td>${e.pp}</td>
+        <td>${e.gf}</td>
+        <td>${e.gc}</td>
+        <td>${e.gf - e.gc}</td>
+        <td>${e.pts}</td>
+      </tr>
     `
 
-    const celdaUltimos5 = fila.querySelector('.ultimos5')
-
-    ultimos5.forEach(r => {
-
-      const div = document.createElement("div")
-      div.classList.add("forma")
-
-      if (r === "V") { div.classList.add("victoria"); div.textContent = "V" }
-      if (r === "E") { div.classList.add("empate"); div.textContent = "E" }
-      if (r === "D") { div.classList.add("derrota"); div.textContent = "D" }
-
-      celdaUltimos5.appendChild(div)
-
-    })
-
-    tbody.appendChild(fila)
+    tbody.innerHTML += row
   })
 }
 
@@ -447,9 +428,8 @@ async function cargarHistorial() {
   })
 }
 async function cargarEquiposSelect() {
-
-  const response = await fetch('/api/clasificacion')
-  const equipos = await response.json()
+  const res = await fetch('/api/clasificacion')
+  const equipos = await res.json()
 
   const selectLocal = document.getElementById("equipoLocal")
   const selectVisitante = document.getElementById("equipoVisitante")
@@ -458,16 +438,8 @@ async function cargarEquiposSelect() {
   selectVisitante.innerHTML = ""
 
   equipos.forEach(e => {
-
-    const option1 = document.createElement("option")
-    option1.value = e.nombre
-    option1.textContent = e.nombre
-
-    const option2 = option1.cloneNode(true)
-
-    selectLocal.appendChild(option1)
-    selectVisitante.appendChild(option2)
-
+    selectLocal.innerHTML += `<option value="${e.nombre}">${e.nombre}</option>`
+    selectVisitante.innerHTML += `<option value="${e.nombre}">${e.nombre}</option>`
   })
 }
 
@@ -476,7 +448,7 @@ async function cargarEquiposSelect() {
 // ===============================
 cargarTabla()
 cargarEquiposSelect()
-cargarHistorial()
+//cargarHistorial()
 
 </script>
 

@@ -8,9 +8,12 @@ const supabase = createClient(
 export default async function handler(req, res) {
 
   if (req.method !== 'POST')
-    return res.status(405).json({ error: 'Method not allowed' })
+    return res.status(405).json({ error: 'Método no permitido' })
 
   const { local, visitante, golesLocal, golesVisitante } = req.body
+
+  if (local === visitante)
+    return res.status(400).json({ error: 'Un equipo no puede jugar contra sí mismo' })
 
   const { data: equipos } = await supabase
     .from('equipos')
@@ -23,42 +26,41 @@ export default async function handler(req, res) {
   if (!equipoLocal || !equipoVisitante)
     return res.status(400).json({ error: 'Equipo no encontrado' })
 
-  equipoLocal.gf += golesLocal
-  equipoLocal.gc += golesVisitante
-  equipoVisitante.gf += golesVisitante
-  equipoVisitante.gc += golesLocal
+  // Calcular nuevos valores
+  let updateLocal = {
+    pj: equipoLocal.pj + 1,
+    gf: equipoLocal.gf + golesLocal,
+    gc: equipoLocal.gc + golesVisitante
+  }
+
+  let updateVisitante = {
+    pj: equipoVisitante.pj + 1,
+    gf: equipoVisitante.gf + golesVisitante,
+    gc: equipoVisitante.gc + golesLocal
+  }
 
   if (golesLocal > golesVisitante) {
-    equipoLocal.pg++
-    equipoLocal.pts += 3
-    equipoVisitante.pp++
-    equipoLocal.historial.push("V")
-    equipoVisitante.historial.push("D")
+    updateLocal.pg = equipoLocal.pg + 1
+    updateLocal.pts = equipoLocal.pts + 3
+
+    updateVisitante.pp = equipoVisitante.pp + 1
   }
   else if (golesLocal < golesVisitante) {
-    equipoVisitante.pg++
-    equipoVisitante.pts += 3
-    equipoLocal.pp++
-    equipoLocal.historial.push("D")
-    equipoVisitante.historial.push("V")
+    updateVisitante.pg = equipoVisitante.pg + 1
+    updateVisitante.pts = equipoVisitante.pts + 3
+
+    updateLocal.pp = equipoLocal.pp + 1
   }
   else {
-    equipoLocal.pe++
-    equipoVisitante.pe++
-    equipoLocal.pts++
-    equipoVisitante.pts++
-    equipoLocal.historial.push("E")
-    equipoVisitante.historial.push("E")
+    updateLocal.pe = equipoLocal.pe + 1
+    updateLocal.pts = equipoLocal.pts + 1
+
+    updateVisitante.pe = equipoVisitante.pe + 1
+    updateVisitante.pts = equipoVisitante.pts + 1
   }
 
-  equipoLocal.historial = equipoLocal.historial.slice(-5)
-  equipoVisitante.historial = equipoVisitante.historial.slice(-5)
-
-  equipoLocal.dg = equipoLocal.gf - equipoLocal.gc
-  equipoVisitante.dg = equipoVisitante.gf - equipoVisitante.gc
-
-  await supabase.from('equipos').update(equipoLocal).eq('id', equipoLocal.id)
-  await supabase.from('equipos').update(equipoVisitante).eq('id', equipoVisitante.id)
+  await supabase.from('equipos').update(updateLocal).eq('nombre', local)
+  await supabase.from('equipos').update(updateVisitante).eq('nombre', visitante)
 
   res.status(200).json({ success: true })
 }

@@ -8,29 +8,22 @@ const supabase = createClient(
 export default async function handler(req, res) {
 
   const { data, error } = await supabase
-    .from('equipos')   // 👈 IMPORTANTE
+    .from('equipos')
     .select('*')
 
   if (error)
     return res.status(500).json({ error: error.message })
 
-  const equiposCalculados = data.map(e => {
+  const tabla = data.map(e => ({
+    ...e,
+    dg: e.gf - e.gc
+  }))
 
-    const pj = e.pg + e.pe + e.pp
-    const dg = e.gf - e.gc
-
-    return {
-      ...e,
-      pj,
-      dg
-    }
-  })
-
-  equiposCalculados.sort((a, b) =>
+  tabla.sort((a, b) =>
     b.pts - a.pts ||
     b.dg - a.dg ||
     b.gf - a.gf
   )
 
-  res.status(200).json(equiposCalculados)
+  res.status(200).json(tabla)
 }
