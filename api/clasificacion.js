@@ -8,7 +8,7 @@ const supabase = createClient(
 export default async function handler(req, res) {
 
   const { data, error } = await supabase
-    .from('equipos')
+    .from('clasificacion')
     .select('*')
 
   if (error)
