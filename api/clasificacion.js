@@ -10,13 +10,29 @@ export default async function handler(req, res) {
   const { data, error } = await supabase
     .from('equipos')
     .select('*')
-    .order('pts', { ascending: false })
-    .order('dg', { ascending: false })
-    .order('gf', { ascending: false })
 
-  if (error) {
+  if (error)
     return res.status(500).json({ error: error.message })
-  }
 
-  res.status(200).json(data)
+  // Recalcular dinámicamente
+  const equiposCalculados = data.map(e => {
+
+    const pj = e.pg + e.pe + e.pp
+    const dg = e.gf - e.gc
+
+    return {
+      ...e,
+      pj,
+      dg
+    }
+  })
+
+  // Ordenar manualmente
+  equiposCalculados.sort((a, b) =>
+    b.pts - a.pts ||
+    b.dg - a.dg ||
+    b.gf - a.gf
+  )
+
+  res.status(200).json(equiposCalculados)
 }
