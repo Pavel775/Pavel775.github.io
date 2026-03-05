@@ -263,28 +263,28 @@ tbody tr:nth-last-child(-n+3) {
 
 <script>
 
-// ===============================
-// CONFIGURACIÓN SUPABASE
-// ===============================
-
 const SUPABASE_URL = "https://notacepolkctimqaqtbz.supabase.co"
-const SUPABASE_KEY = "TU_ANON_PUBLIC_KEY"
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5vdGFjZXBvbGtjdGltcWFxdGJ6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI0NDczODAsImV4cCI6MjA4ODAyMzM4MH0.eACTDyujWovbMflSgj_CgS80IbgZcaLRuS8036-WmmQ"
 
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
+const { createClient } = supabase
+const db = createClient(SUPABASE_URL, SUPABASE_KEY)
 
 
 // ===============================
 // CARGAR CLASIFICACIÓN
 // ===============================
 
-async function cargarTabla() {
+async function cargarTabla(){
 
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from("clasificacion")
-    .select("*")
-    .order("pts", { ascending: false })
+    .select(`
+        pj,pg,pe,pp,gf,gc,df,pts,ultimos5,
+        equipos(nombre)
+    `)
+    .order("pts", { ascending:false })
 
-  if (error) {
+  if(error){
     console.error(error)
     return
   }
@@ -292,67 +292,69 @@ async function cargarTabla() {
   const tbody = document.querySelector("#ligaTable tbody")
   tbody.innerHTML = ""
 
-  data.forEach((e, index) => {
-
-    const df = (e.gf || 0) - (e.gc || 0)
+  data.forEach((e,index)=>{
 
     const row = `
-      <tr>
-        <td>${index + 1}</td>
-        <td>${e.nombre}</td>
-        <td>${e.pj || 0}</td>
-        <td>${e.pg || 0}</td>
-        <td>${e.pe || 0}</td>
-        <td>${e.pp || 0}</td>
-        <td>${e.gf || 0}</td>
-        <td>${e.gc || 0}</td>
-        <td>${df}</td>
-        <td>${e.pts || 0}</td>
-        <td></td>
-      </tr>
+    <tr>
+      <td>${index+1}</td>
+      <td>${e.equipos.nombre}</td>
+      <td>${e.pj}</td>
+      <td>${e.pg}</td>
+      <td>${e.pe}</td>
+      <td>${e.pp}</td>
+      <td>${e.gf}</td>
+      <td>${e.gc}</td>
+      <td>${e.df}</td>
+      <td>${e.pts}</td>
+      <td>${pintarForma(e.ultimos5)}</td>
+    </tr>
     `
 
     tbody.innerHTML += row
-  })
 
+  })
+}
+
+function pintarForma(forma){
+
+  if(!forma) return ""
+
+  return forma.split("").map(r=>{
+
+    if(r==="V") return '<span class="forma victoria">V</span>'
+    if(r==="E") return '<span class="forma empate">E</span>'
+    if(r==="D") return '<span class="forma derrota">D</span>'
+
+  }).join("")
 }
 
 
 // ===============================
-// CARGAR EQUIPOS EN SELECT
+// CARGAR EQUIPOS
 // ===============================
 
-async function cargarEquiposSelect() {
+async function cargarEquiposSelect(){
 
-  const { data, error } = await supabase
+  const { data,error } = await db
     .from("equipos")
     .select("*")
     .order("nombre")
 
-  if (error) {
+  if(error){
     console.error(error)
     return
   }
 
-  const selectLocal = document.getElementById("equipoLocal")
-  const selectVisitante = document.getElementById("equipoVisitante")
+  const local = document.getElementById("equipoLocal")
+  const visitante = document.getElementById("equipoVisitante")
 
-  selectLocal.innerHTML = ""
-  selectVisitante.innerHTML = ""
+  local.innerHTML=""
+  visitante.innerHTML=""
 
-  data.forEach(e => {
+  data.forEach(e=>{
 
-    selectLocal.innerHTML += `
-      <option value="${e.id}">
-        ${e.nombre}
-      </option>
-    `
-
-    selectVisitante.innerHTML += `
-      <option value="${e.id}">
-        ${e.nombre}
-      </option>
-    `
+    local.innerHTML += `<option value="${e.id}">${e.nombre}</option>`
+    visitante.innerHTML += `<option value="${e.id}">${e.nombre}</option>`
 
   })
 
@@ -360,78 +362,42 @@ async function cargarEquiposSelect() {
 
 
 // ===============================
-// REGISTRAR PARTIDO
+// GUARDAR PARTIDO
 // ===============================
 
-async function guardarPartido() {
+async function guardarPartido(){
 
   const local = parseInt(document.getElementById("equipoLocal").value)
   const visitante = parseInt(document.getElementById("equipoVisitante").value)
-
   const golesLocal = parseInt(document.getElementById("golesLocal").value)
   const golesVisitante = parseInt(document.getElementById("golesVisitante").value)
 
-  if (local === visitante)
+  if(local===visitante)
     return alert("Un equipo no puede jugar contra sí mismo")
 
-  if (isNaN(golesLocal) || isNaN(golesVisitante))
+  if(isNaN(golesLocal)||isNaN(golesVisitante))
     return alert("Introduce los goles")
 
-  const { error } = await supabase
-    .from("partidos")
-    .insert([{
-      equipo_local: local,
-      equipo_visitante: visitante,
-      goles_local: golesLocal,
-      goles_visitante: golesVisitante
-    }])
 
-  if (error) {
-    console.error(error)
-    alert("Error guardando partido")
-    return
-  }
+  await db.from("partidos").insert([{
+
+    equipo_local:local,
+    equipo_visitante:visitante,
+    goles_local:golesLocal,
+    goles_visitante:golesVisitante
+
+  }])
+
 
   alert("Partido registrado")
 
-  document.getElementById("golesLocal").value = ""
-  document.getElementById("golesVisitante").value = ""
+  document.getElementById("golesLocal").value=""
+  document.getElementById("golesVisitante").value=""
 
   cargarTabla()
 
 }
 
-
-// ===============================
-// DESHACER ÚLTIMO PARTIDO
-// ===============================
-
-async function deshacerUltimoPartido() {
-
-  const { data, error } = await supabase
-    .from("partidos")
-    .select("id")
-    .order("id", { ascending: false })
-    .limit(1)
-
-  if (error || !data.length) {
-    alert("No hay partidos para borrar")
-    return
-  }
-
-  await supabase
-    .from("partidos")
-    .delete()
-    .eq("id", data[0].id)
-
-  cargarTabla()
-
-}
-
-
-// ===============================
-// INICIO
-// ===============================
 
 cargarTabla()
 cargarEquiposSelect()
