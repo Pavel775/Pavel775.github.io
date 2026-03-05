@@ -307,7 +307,7 @@ async function cargarTabla() {
         <td>${e.gc}</td>
         <td>${e.df}</td>
         <td>${e.pts}</td>
-        <td>${e.ultimos5 || ""}</td>
+        <td>${pintarForma(e.ultimos5)}</td>
       </tr>
     `
 
@@ -315,6 +315,23 @@ async function cargarTabla() {
   })
 }
 
+function pintarForma(forma){
+
+  if(!forma) return ""
+
+  return forma.split("").map(r => {
+
+    if(r === "V")
+      return '<span class="forma victoria">V</span>'
+
+    if(r === "E")
+      return '<span class="forma empate">E</span>'
+
+    if(r === "D")
+      return '<span class="forma derrota">D</span>'
+
+  }).join("")
+}
 
 // ===============================
 // CARGAR EQUIPOS EN SELECT
@@ -361,8 +378,8 @@ async function cargarEquiposSelect() {
 
 async function guardarPartido() {
 
-  const local = document.getElementById("equipoLocal").value
-  const visitante = document.getElementById("equipoVisitante").value
+  const local = parseInt(document.getElementById("equipoLocal").value)
+  const visitante = parseInt(document.getElementById("equipoVisitante").value)
   const golesLocal = parseInt(document.getElementById("golesLocal").value)
   const golesVisitante = parseInt(document.getElementById("golesVisitante").value)
 
@@ -372,30 +389,111 @@ async function guardarPartido() {
   if(isNaN(golesLocal) || isNaN(golesVisitante))
     return alert("Introduce los goles")
 
-  const { error } = await supabase
-    .from("partidos")
-    .insert([
-      {
-        equipo_local: local,
-        equipo_visitante: visitante,
-        goles_local: golesLocal,
-        goles_visitante: golesVisitante
-      }
-    ])
+  // 1️⃣ GUARDAR PARTIDO
+  await supabase.from("partidos").insert([
+    {
+      equipo_local: local,
+      equipo_visitante: visitante,
+      goles_local: golesLocal,
+      goles_visitante: golesVisitante
+    }
+  ])
 
-  if(error){
-    console.error(error)
-    alert("Error al guardar partido")
-    return
+
+  // 2️⃣ OBTENER CLASIFICACION DE LOS EQUIPOS
+  const { data: clasif } = await supabase
+    .from("clasificacion")
+    .select("*")
+    .in("equipo_id", [local, visitante])
+
+
+  const equipoLocal = clasif.find(e => e.equipo_id == local)
+  const equipoVisit = clasif.find(e => e.equipo_id == visitante)
+
+
+  // 3️⃣ ACTUALIZAR GOLES
+  equipoLocal.gf += golesLocal
+  equipoLocal.gc += golesVisitante
+
+  equipoVisit.gf += golesVisitante
+  equipoVisit.gc += golesLocal
+
+
+  // 4️⃣ PARTIDOS JUGADOS
+  equipoLocal.pj++
+  equipoVisit.pj++
+
+
+  // 5️⃣ RESULTADO
+  if(golesLocal > golesVisitante){
+
+    equipoLocal.pg++
+    equipoLocal.pts += 3
+
+    equipoVisit.pp++
+
+    equipoLocal.ultimos5 = actualizarForma(equipoLocal.ultimos5,"V")
+    equipoVisit.ultimos5 = actualizarForma(equipoVisit.ultimos5,"D")
+
   }
+  else if(golesLocal < golesVisitante){
+
+    equipoVisit.pg++
+    equipoVisit.pts += 3
+
+    equipoLocal.pp++
+
+    equipoLocal.ultimos5 = actualizarForma(equipoLocal.ultimos5,"D")
+    equipoVisit.ultimos5 = actualizarForma(equipoVisit.ultimos5,"V")
+
+  }
+  else{
+
+    equipoLocal.pe++
+    equipoVisit.pe++
+
+    equipoLocal.pts += 1
+    equipoVisit.pts += 1
+
+    equipoLocal.ultimos5 = actualizarForma(equipoLocal.ultimos5,"E")
+    equipoVisit.ultimos5 = actualizarForma(equipoVisit.ultimos5,"E")
+
+  }
+
+
+  // 6️⃣ DIFERENCIA GOLES
+  equipoLocal.df = equipoLocal.gf - equipoLocal.gc
+  equipoVisit.df = equipoVisit.gf - equipoVisit.gc
+
+
+  // 7️⃣ GUARDAR ACTUALIZACIONES
+  await supabase.from("clasificacion").update(equipoLocal).eq("id", equipoLocal.id)
+
+  await supabase.from("clasificacion").update(equipoVisit).eq("id", equipoVisit.id)
+
 
   alert("Partido registrado")
 
   document.getElementById("golesLocal").value = ""
   document.getElementById("golesVisitante").value = ""
 
+  cargarTabla()
+
 }
 
+function actualizarForma(actual, resultado){
+
+  if(!actual) actual = ""
+
+  const arr = actual.split("").filter(x => x !== "")
+
+  arr.push(resultado)
+
+  if(arr.length > 5)
+    arr.shift()
+
+  return arr.join("")
+}
 
 // ===============================
 // INICIO
