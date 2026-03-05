@@ -453,8 +453,34 @@ equipoLocal.df=equipoLocal.gf-equipoLocal.gc
 equipoVisit.df=equipoVisit.gf-equipoVisit.gc
 
 
-await db.from("clasificacion").update(equipoLocal).eq("id",equipoLocal.id)
-await db.from("clasificacion").update(equipoVisit).eq("id",equipoVisit.id)
+await db
+.from("clasificacion")
+.update({
+pj: equipoLocal.pj,
+pg: equipoLocal.pg,
+pe: equipoLocal.pe,
+pp: equipoLocal.pp,
+gf: equipoLocal.gf,
+gc: equipoLocal.gc,
+df: equipoLocal.df,
+pts: equipoLocal.pts,
+ultimos5: equipoLocal.ultimos5
+})
+.eq("id", equipoLocal.id)
+await db
+.from("clasificacion")
+.update({
+pj: equipoVisit.pj,
+pg: equipoVisit.pg,
+pe: equipoVisit.pe,
+pp: equipoVisit.pp,
+gf: equipoVisit.gf,
+gc: equipoVisit.gc,
+df: equipoVisit.df,
+pts: equipoVisit.pts,
+ultimos5: equipoVisit.ultimos5
+})
+.eq("id", equipoVisit.id)
 
 document.getElementById("golesLocal").value=""
 document.getElementById("golesVisitante").value=""
