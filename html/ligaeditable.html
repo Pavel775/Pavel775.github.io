@@ -254,362 +254,156 @@ tbody tr:nth-last-child(-n+3) {
         </tr>
     </thead>
     <tbody>
-
-    <tr><td>1</td><td>Alavés</td><td>0</td><td>7</td><td>6</td><td>13</td><td>23</td><td>34</td><td>0</td><td>0</td><td class="ultimos5"></td></tr>
-
-    <tr><td>2</td><td>Athletic Club</td><td>0</td><td>10</td><td>5</td><td>11</td><td>30</td><td>36</td><td>0</td><td>0</td><td class="ultimos5"></td></tr>
-
-    <tr><td>3</td><td>Atlético de Madrid</td><td>0</td><td>15</td><td>6</td><td>5</td><td>43</td><td>23</td><td>0</td><td>0</td><td class="ultimos5"></td></tr>
-
-    <tr><td>4</td><td>FC Barcelona</td><td>0</td><td>21</td><td>1</td><td>4</td><td>71</td><td>26</td><td>0</td><td>0</td><td class="ultimos5"></td></tr>
-
-    <tr><td>5</td><td>Real Betis</td><td>0</td><td>11</td><td>10</td><td>5</td><td>42</td><td>32</td><td>0</td><td>0</td><td class="ultimos5"></td></tr>
-
-    <tr><td>6</td><td>Celta de Vigo</td><td>0</td><td>10</td><td>10</td><td>6</td><td>36</td><td>28</td><td>0</td><td>0</td><td class="ultimos5"></td></tr>
-
-    <tr><td>7</td><td>Getafe</td><td>0</td><td>8</td><td>5</td><td>12</td><td>20</td><td>29</td><td>0</td><td>0</td><td class="ultimos5"></td></tr>
-
-    <tr><td>8</td><td>Girona</td><td>0</td><td>7</td><td>9</td><td>10</td><td>27</td><td>42</td><td>0</td><td>0</td><td class="ultimos5"></td></tr>
-
-    <tr><td>9</td><td>Elche</td><td>0</td><td>5</td><td>11</td><td>10</td><td>34</td><td>39</td><td>0</td><td>0</td><td class="ultimos5"></td></tr>
-
-    <tr><td>10</td><td>Mallorca</td><td>0</td><td>6</td><td>6</td><td>14</td><td>29</td><td>42</td><td>0</td><td>0</td><td class="ultimos5"></td></tr>
-
-    <tr><td>11</td><td>Osasuna</td><td>0</td><td>9</td><td>6</td><td>11</td><td>30</td><td>30</td><td>0</td><td>0</td><td class="ultimos5"></td></tr>
-
-    <tr><td>12</td><td>Rayo Vallecano</td><td>0</td><td>6</td><td>9</td><td>10</td><td>23</td><td>32</td><td>0</td><td>0</td><td class="ultimos5"></td></tr>
-
-    <tr><td>13</td><td>Real Madrid</td><td>0</td><td>19</td><td>3</td><td>3</td><td>54</td><td>21</td><td>0</td><td>0</td><td class="ultimos5"></td></tr>
-
-    <tr><td>14</td><td>Real Sociedad</td><td>0</td><td>9</td><td>8</td><td>9</td><td>38</td><td>38</td><td>0</td><td>0</td><td class="ultimos5"></td></tr>
-
-    <tr><td>15</td><td>RCD Espanyol</td><td>0</td><td>10</td><td>6</td><td>10</td><td>33</td><td>39</td><td>0</td><td>0</td><td class="ultimos5"></td></tr>
-
-    <tr><td>16</td><td>Sevilla</td><td>0</td><td>8</td><td>6</td><td>12</td><td>34</td><td>41</td><td>0</td><td>0</td><td class="ultimos5"></td></tr>
-
-    <tr><td>17</td><td>Valencia CF</td><td>0</td><td>7</td><td>8</td><td>11</td><td>27</td><td>39</td><td>0</td><td>0</td><td class="ultimos5"></td></tr>
-
-    <tr><td>18</td><td>Villarreal</td><td>0</td><td>16</td><td>3</td><td>7</td><td>48</td><td>31</td><td>0</td><td>0</td><td class="ultimos5"></td></tr>
-
-    <tr><td>19</td><td>Levante</td><td>0</td><td>5</td><td>6</td><td>15</td><td>28</td><td>44</td><td>0</td><td>0</td><td class="ultimos5"></td></tr>
-
-    <tr><td>20</td><td>Real Oviedo</td><td>0</td><td>3</td><td>8</td><td>14</td><td>16</td><td>40</td><td>0</td><td>0</td><td class="ultimos5"></td></tr>
-
     </tbody>
 </table>
-    
+
+<!-- Supabase JS -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script>
 
-let liga = JSON.parse(localStorage.getItem("liga")) || {};
-let partidos = JSON.parse(localStorage.getItem("partidos")) || [];
-let jornada = parseInt(localStorage.getItem("jornada")) || 26;
+const SUPABASE_URL = "https://notacepolkctimqaqtbz.supabase.co"
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5vdGFjZXBvbGtjdGltcWFxdGJ6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI0NDczODAsImV4cCI6MjA4ODAyMzM4MH0.eACTDyujWovbMflSgj_CgS80IbgZcaLRuS8036-WmmQ"
 
-// ===== GUARDAR =====
-function guardarDatos() {
-    localStorage.setItem("liga", JSON.stringify(liga));
-    localStorage.setItem("partidos", JSON.stringify(partidos));
-    localStorage.setItem("jornada", jornada);
-}
+const { createClient } = supabase
+const db = createClient(SUPABASE_URL, SUPABASE_KEY)
 
-// ===== INICIALIZAR DESDE TABLA =====
-function inicializarLiga() {
 
-    const filas = document.querySelectorAll('#ligaTable tbody tr');
+// ===============================
+// CARGAR CLASIFICACIÓN
+// ===============================
 
-    filas.forEach(fila => {
+async function cargarTabla(){
 
-        const nombre = fila.cells[1].textContent.trim();
+  const { data, error } = await db
+    .from("clasificacion")
+    .select(`
+        pj,pg,pe,pp,gf,gc,df,pts,ultimos5,
+        equipos(nombre)
+    `)
+    .order("pts", { ascending:false })
 
-        liga[nombre] = {
-            PG: parseInt(fila.cells[3].textContent),
-            PE: parseInt(fila.cells[4].textContent),
-            PP: parseInt(fila.cells[5].textContent),
-            GF: parseInt(fila.cells[6].textContent),
-            GC: parseInt(fila.cells[7].textContent),
-            historial: liga[nombre]?.historial || []
-        };
-    });
-
-    guardarDatos();
-    cargarSelectEquipos();
-}
-
-// ===== CARGAR SELECTS =====
-function cargarSelectEquipos() {
-
-    const selectLocal = document.getElementById("equipoLocal");
-    const selectVisitante = document.getElementById("equipoVisitante");
-
-    selectLocal.innerHTML = "";
-    selectVisitante.innerHTML = "";
-
-    Object.keys(liga).forEach(nombre => {
-
-        const option1 = document.createElement("option");
-        option1.value = nombre;
-        option1.textContent = nombre;
-
-        const option2 = option1.cloneNode(true);
-
-        selectLocal.appendChild(option1);
-        selectVisitante.appendChild(option2);
-    });
-}
-
-// ===== GUARDAR PARTIDO DESDE PANEL =====
-function guardarPartido() {
-
-    const local = document.getElementById("equipoLocal").value;
-    const visitante = document.getElementById("equipoVisitante").value;
-    const golesLocal = parseInt(document.getElementById("golesLocal").value);
-    const golesVisitante = parseInt(document.getElementById("golesVisitante").value);
-
-    if (local === visitante) return alert("Un equipo no puede jugar contra sí mismo");
-    if (isNaN(golesLocal) || isNaN(golesVisitante)) return alert("Introduce los goles");
-
-    registrarPartido(local, visitante, golesLocal, golesVisitante);
-
-    document.getElementById("golesLocal").value = "";
-    document.getElementById("golesVisitante").value = "";
-}
-
-// ===== REGISTRAR PARTIDO =====
-function registrarPartido(local, visitante, golesLocal, golesVisitante) {
-
-    const L = liga[local];
-    const V = liga[visitante];
-
-    L.GF += golesLocal;
-    L.GC += golesVisitante;
-    V.GF += golesVisitante;
-    V.GC += golesLocal;
-
-    if (golesLocal > golesVisitante) {
-        L.PG++; V.PP++;
-        L.historial.push("V");
-        V.historial.push("D");
-    } else if (golesLocal < golesVisitante) {
-        V.PG++; L.PP++;
-        V.historial.push("V");
-        L.historial.push("D");
-    } else {
-        L.PE++; V.PE++;
-        L.historial.push("E");
-        V.historial.push("E");
-    }
-
-    partidos.push({ jornada, local, visitante, golesLocal, golesVisitante });
-    jornada++;
-
-    guardarDatos();
-    actualizarTabla();
-    actualizarHistorial();
-}
-
-// ===== DESHACER =====
-function deshacerUltimoPartido() {
-
-    if (partidos.length === 0) return;
-
-    const ultimo = partidos.pop();
-    jornada--;
-
-    const L = liga[ultimo.local];
-    const V = liga[ultimo.visitante];
-
-    L.GF -= ultimo.golesLocal;
-    L.GC -= ultimo.golesVisitante;
-    V.GF -= ultimo.golesVisitante;
-    V.GC -= ultimo.golesLocal;
-
-    if (ultimo.golesLocal > ultimo.golesVisitante) {
-        L.PG--; V.PP--;
-    } else if (ultimo.golesLocal < ultimo.golesVisitante) {
-        V.PG--; L.PP--;
-    } else {
-        L.PE--; V.PE--;
-    }
-
-    L.historial.pop();
-    V.historial.pop();
-
-    guardarDatos();
-    actualizarTabla();
-    actualizarHistorial();
-}
-
-// ===== ACTUALIZAR HISTORIAL =====
-function actualizarHistorial() {
-
-    const contenedor = document.getElementById("historialPartidos");
-    contenedor.innerHTML = "";
-
-    partidos.slice().reverse().forEach(p => {
-
-        const div = document.createElement("div");
-        div.classList.add("partido-item");
-
-        div.textContent =
-            "J" + p.jornada + " - " +
-            p.local + " " + p.golesLocal +
-            " - " + p.golesVisitante + " " +
-            p.visitante;
-
-        contenedor.appendChild(div);
-    });
-}
-
-// ===== CALCULAR RACHA =====
-function calcularRacha(historial) {
-    return historial.slice(-5).reduce((acc, r) => {
-        if (r === "V") return acc + 3;
-        if (r === "E") return acc + 1;
-        return acc;
-    }, 0);
-}
-
-// ===== ACTUALIZAR TABLA =====
-function actualizarTabla() {
-
-    const filas = document.querySelectorAll('#ligaTable tbody tr');
-
-    filas.forEach(fila => {
-
-        const nombre = fila.cells[1].textContent.trim();
-        const equipo = liga[nombre];
-
-        const PJ = equipo.PG + equipo.PE + equipo.PP;
-        const DF = equipo.GF - equipo.GC;
-        const PTS = equipo.PG * 3 + equipo.PE;
-
-        fila.cells[2].textContent = PJ;
-        fila.cells[3].textContent = equipo.PG;
-        fila.cells[4].textContent = equipo.PE;
-        fila.cells[5].textContent = equipo.PP;
-        fila.cells[6].textContent = equipo.GF;
-        fila.cells[7].textContent = equipo.GC;
-        fila.cells[8].textContent = DF;
-        fila.cells[9].textContent = PTS;
-
-        actualizarUltimos5(fila, equipo.historial);
-    });
-
-    ordenarTabla();
-}
-
-// ===== ÚLTIMOS 5 =====
-function actualizarUltimos5(fila, historial) {
-
-    const celda = fila.querySelector('.ultimos5');
-    celda.innerHTML = "";
-
-    historial.slice(-5).forEach(r => {
-
-        const div = document.createElement("div");
-        div.classList.add("forma");
-
-        if (r === "V") { div.classList.add("victoria"); div.textContent = "V"; }
-        if (r === "E") { div.classList.add("empate"); div.textContent = "E"; }
-        if (r === "D") { div.classList.add("derrota"); div.textContent = "D"; }
-
-        celda.appendChild(div);
-    });
-}
-
-// ===== ORDENAR =====
-function ordenarTabla() {
-
-    const table = document.getElementById('ligaTable');
-    const rows = Array.from(table.tBodies[0].rows);
-
-    rows.sort((a, b) => {
-
-        const A = liga[a.cells[1].textContent.trim()];
-        const B = liga[b.cells[1].textContent.trim()];
-
-        const ptsA = A.PG * 3 + A.PE;
-        const ptsB = B.PG * 3 + B.PE;
-
-        if (ptsB !== ptsA) return ptsB - ptsA;
-
-        const dfA = A.GF - A.GC;
-        const dfB = B.GF - B.GC;
-
-        if (dfB !== dfA) return dfB - dfA;
-
-        return calcularRacha(B.historial) - calcularRacha(A.historial);
-    });
-
-    rows.forEach((row, index) => {
-        row.cells[0].textContent = index + 1;
-        table.tBodies[0].appendChild(row);
-    });
-}
-
-// ===== INICIO =====
-inicializarLiga();
-actualizarTabla();
-actualizarHistorial();
-async function guardarPartido() {
-
-  const local = document.getElementById("equipoLocal").value;
-  const visitante = document.getElementById("equipoVisitante").value;
-  const golesLocal = parseInt(document.getElementById("golesLocal").value);
-  const golesVisitante = parseInt(document.getElementById("golesVisitante").value);
-
-  const response = await fetch('/api/registrar', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      local,
-      visitante,
-      golesLocal,
-      golesVisitante
-    })
-  });
-
-  const data = await response.json();
-
-  if (data.success) {
-    alert("Partido guardado en base de datos");
-    location.reload();
-  } else {
-    alert("Error al guardar");
+  if(error){
+    console.error(error)
+    return
   }
-}
-async function cargarTabla() {
 
-  const response = await fetch('/api/clasificacion')
-  const equipos = await response.json()
+  const tbody = document.querySelector("#ligaTable tbody")
+  tbody.innerHTML = ""
 
-  const tbody = document.querySelector('#ligaTable tbody')
-  tbody.innerHTML = ''
+  data.forEach((e,index)=>{
 
-  equipos.forEach((e, index) => {
-
-    const fila = document.createElement('tr')
-
-    fila.innerHTML = `
+    const row = `
+    <tr>
       <td>${index+1}</td>
-      <td>${e.nombre}</td>
-      <td>${e.pg + e.pe + e.pp}</td>
+      <td>${e.equipos.nombre}</td>
+      <td>${e.pj}</td>
       <td>${e.pg}</td>
       <td>${e.pe}</td>
       <td>${e.pp}</td>
       <td>${e.gf}</td>
       <td>${e.gc}</td>
-      <td>${e.dg}</td>
+      <td>${e.df}</td>
       <td>${e.pts}</td>
-      <td>${e.historial.slice(-5).join(' ')}</td>
+      <td>${pintarForma(e.ultimos5)}</td>
+    </tr>
     `
 
-    tbody.appendChild(fila)
+    tbody.innerHTML += row
+
   })
 }
 
+function pintarForma(forma){
+
+  if(!forma) return ""
+
+  return forma.split("").map(r=>{
+
+    if(r==="V") return '<span class="forma victoria">V</span>'
+    if(r==="E") return '<span class="forma empate">E</span>'
+    if(r==="D") return '<span class="forma derrota">D</span>'
+
+  }).join("")
+}
+
+
+// ===============================
+// CARGAR EQUIPOS
+// ===============================
+
+async function cargarEquiposSelect(){
+
+  const { data,error } = await db
+    .from("equipos")
+    .select("*")
+    .order("nombre")
+
+  if(error){
+    console.error(error)
+    return
+  }
+
+  const local = document.getElementById("equipoLocal")
+  const visitante = document.getElementById("equipoVisitante")
+
+  local.innerHTML=""
+  visitante.innerHTML=""
+
+  data.forEach(e=>{
+
+    local.innerHTML += `<option value="${e.id}">${e.nombre}</option>`
+    visitante.innerHTML += `<option value="${e.id}">${e.nombre}</option>`
+
+  })
+
+}
+
+
+// ===============================
+// GUARDAR PARTIDO
+// ===============================
+
+async function guardarPartido(){
+
+  const local = parseInt(document.getElementById("equipoLocal").value)
+  const visitante = parseInt(document.getElementById("equipoVisitante").value)
+  const golesLocal = parseInt(document.getElementById("golesLocal").value)
+  const golesVisitante = parseInt(document.getElementById("golesVisitante").value)
+
+  if(local===visitante)
+    return alert("Un equipo no puede jugar contra sí mismo")
+
+  if(isNaN(golesLocal)||isNaN(golesVisitante))
+    return alert("Introduce los goles")
+
+
+  await db.from("partidos").insert([{
+
+    equipo_local:local,
+    equipo_visitante:visitante,
+    goles_local:golesLocal,
+    goles_visitante:golesVisitante
+
+  }])
+
+
+  alert("Partido registrado")
+
+  document.getElementById("golesLocal").value=""
+  document.getElementById("golesVisitante").value=""
+
+  cargarTabla()
+
+}
+
+
 cargarTabla()
+cargarEquiposSelect()
 
 </script>
+
 
     </body>
     <footer>
