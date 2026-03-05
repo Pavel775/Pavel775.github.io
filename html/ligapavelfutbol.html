@@ -275,6 +275,7 @@ const {data,error}=await db
 equipos(nombre)
 `)
 .order("pts",{ascending:false})
+.order("df",{ascending:false})
 
 if(error){
 console.log(error)

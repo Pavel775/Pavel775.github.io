@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
-    <head>
+<head>
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,8 +8,8 @@
         <link rel="shotcut icon" href="/img/logo pavel.png">
         <link rel="stylesheet" type="text/css" href="/css/estilosliga.css">
         <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
-    </head>
-    <header>
+</head>
+<header>
         <nav>
             <div class="logo">La Liga Española</div>
             <div class="menu-toggle"><i class="fas fa-bars"></i></div>
@@ -211,54 +211,46 @@ tbody tr:nth-last-child(-n+3) {
 }
 </style>
 
+
 <h1>La Liga</h1>
+
 <div class="panel-partido">
 
-    <h3>Registrar Partido</h3>
+<select id="equipoLocal"></select>
+<input type="number" id="golesLocal" min="0" placeholder="Goles">
 
-    <select id="equipoLocal"></select>
-    <input type="number" id="golesLocal" min="0" placeholder="Goles">
+<span>vs</span>
 
-    <span>vs</span>
+<input type="number" id="golesVisitante" min="0" placeholder="Goles">
+<select id="equipoVisitante"></select>
 
-    <input type="number" id="golesVisitante" min="0" placeholder="Goles">
-    <select id="equipoVisitante"></select>
-
-    <button onclick="guardarPartido()">Guardar</button>
+<button onclick="guardarPartido()">Guardar</button>
 
 </div>
-
-<div class="panel-historial">
-    <h3>Historial de Partidos</h3>
-    <div id="historialPartidos"></div>
-    <button onclick="deshacerUltimoPartido()" class="btn-deshacer">
-        Deshacer último partido
-    </button>
-</div>
-
 
 <table id="ligaTable">
-    <thead>
-        <tr>
-            <th>Pos</th>
-            <th>Equipo</th>
-            <th>PJ</th>
-            <th>PG</th>
-            <th>PE</th>
-            <th>PP</th>
-            <th>GF</th>
-            <th>GC</th>
-            <th>DF</th>
-            <th>PTS</th>
-            <th>Últimos 5</th>
-        </tr>
-    </thead>
-    <tbody>
-    </tbody>
+
+<thead>
+<tr>
+<th>Pos</th>
+<th>Equipo</th>
+<th>PJ</th>
+<th>PG</th>
+<th>PE</th>
+<th>PP</th>
+<th>GF</th>
+<th>GC</th>
+<th>DF</th>
+<th>PTS</th>
+<th>Últimos 5</th>
+</tr>
+</thead>
+
+<tbody></tbody>
+
 </table>
 
-<!-- Supabase JS -->
-
+<!-- SUPABASE LIBRERIA -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
@@ -270,140 +262,243 @@ const { createClient } = supabase
 const db = createClient(SUPABASE_URL, SUPABASE_KEY)
 
 
-// ===============================
-// CARGAR CLASIFICACIÓN
-// ===============================
+// =================
+// CARGAR TABLA
+// =================
 
 async function cargarTabla(){
 
-  const { data, error } = await db
-    .from("clasificacion")
-    .select(`
-        pj,pg,pe,pp,gf,gc,df,pts,ultimos5,
-        equipos(nombre)
-    `)
-    .order("pts", { ascending:false })
+const {data,error}=await db
+.from("clasificacion")
+.select(`
+*,
+equipos(nombre)
+`)
+.order("pts",{ascending:false})
+.order("df",{ascending:false})
 
-  if(error){
-    console.error(error)
-    return
-  }
-
-  const tbody = document.querySelector("#ligaTable tbody")
-  tbody.innerHTML = ""
-
-  data.forEach((e,index)=>{
-
-    const row = `
-    <tr>
-      <td>${index+1}</td>
-      <td>${e.equipos.nombre}</td>
-      <td>${e.pj}</td>
-      <td>${e.pg}</td>
-      <td>${e.pe}</td>
-      <td>${e.pp}</td>
-      <td>${e.gf}</td>
-      <td>${e.gc}</td>
-      <td>${e.df}</td>
-      <td>${e.pts}</td>
-      <td>${pintarForma(e.ultimos5)}</td>
-    </tr>
-    `
-
-    tbody.innerHTML += row
-
-  })
+if(error){
+console.log(error)
+return
 }
+
+const tbody=document.querySelector("#ligaTable tbody")
+tbody.innerHTML=""
+
+data.forEach((e,i)=>{
+
+tbody.innerHTML+=`
+<tr>
+<td>${i+1}</td>
+<td>${e.equipos.nombre}</td>
+<td>${e.pj}</td>
+<td>${e.pg}</td>
+<td>${e.pe}</td>
+<td>${e.pp}</td>
+<td>${e.gf}</td>
+<td>${e.gc}</td>
+<td>${e.df}</td>
+<td>${e.pts}</td>
+<td>${pintarForma(e.ultimos5)}</td>
+</tr>
+`
+
+})
+
+}
+
+
+// =================
+// PINTAR FORMA
+// =================
 
 function pintarForma(forma){
 
-  if(!forma) return ""
+if(!forma)return ""
 
-  return forma.split("").map(r=>{
+return forma.split("").map(r=>{
 
-    if(r==="V") return '<span class="forma victoria">V</span>'
-    if(r==="E") return '<span class="forma empate">E</span>'
-    if(r==="D") return '<span class="forma derrota">D</span>'
+if(r==="V") return '<span class="forma victoria">V</span>'
+if(r==="E") return '<span class="forma empate">E</span>'
+if(r==="D") return '<span class="forma derrota">D</span>'
 
-  }).join("")
+}).join("")
+
 }
 
 
-// ===============================
+// =================
 // CARGAR EQUIPOS
-// ===============================
+// =================
 
-async function cargarEquiposSelect(){
+async function cargarEquipos(){
 
-  const { data,error } = await db
-    .from("equipos")
-    .select("*")
-    .order("nombre")
+const {data}=await db
+.from("equipos")
+.select("*")
+.order("nombre")
 
-  if(error){
-    console.error(error)
-    return
-  }
+const local=document.getElementById("equipoLocal")
+const visit=document.getElementById("equipoVisitante")
 
-  const local = document.getElementById("equipoLocal")
-  const visitante = document.getElementById("equipoVisitante")
+local.innerHTML=""
+visit.innerHTML=""
 
-  local.innerHTML=""
-  visitante.innerHTML=""
+data.forEach(e=>{
 
-  data.forEach(e=>{
+local.innerHTML+=`<option value="${e.id}">${e.nombre}</option>`
+visit.innerHTML+=`<option value="${e.id}">${e.nombre}</option>`
 
-    local.innerHTML += `<option value="${e.id}">${e.nombre}</option>`
-    visitante.innerHTML += `<option value="${e.id}">${e.nombre}</option>`
-
-  })
+})
 
 }
 
 
-// ===============================
+// =================
+// ACTUALIZAR FORMA
+// =================
+
+function actualizarForma(actual,res){
+
+if(!actual) actual=""
+
+let arr=actual.split("").filter(x=>x!="")
+
+arr.push(res)
+
+if(arr.length>5) arr.shift()
+
+return arr.join("")
+
+}
+
+
+// =================
 // GUARDAR PARTIDO
-// ===============================
+// =================
 
 async function guardarPartido(){
 
-  const local = parseInt(document.getElementById("equipoLocal").value)
-  const visitante = parseInt(document.getElementById("equipoVisitante").value)
-  const golesLocal = parseInt(document.getElementById("golesLocal").value)
-  const golesVisitante = parseInt(document.getElementById("golesVisitante").value)
+const local=parseInt(document.getElementById("equipoLocal").value)
+const visit=parseInt(document.getElementById("equipoVisitante").value)
 
-  if(local===visitante)
-    return alert("Un equipo no puede jugar contra sí mismo")
+const golesLocal=parseInt(document.getElementById("golesLocal").value)
+const golesVisit=parseInt(document.getElementById("golesVisitante").value)
 
-  if(isNaN(golesLocal)||isNaN(golesVisitante))
-    return alert("Introduce los goles")
+if(local===visit){
+alert("No pueden ser el mismo equipo")
+return
+}
 
-
-  await db.from("partidos").insert([{
-
-    equipo_local:local,
-    equipo_visitante:visitante,
-    goles_local:golesLocal,
-    goles_visitante:golesVisitante
-
-  }])
+await db.from("partidos").insert([{
+equipo_local:local,
+equipo_visitante:visit,
+goles_local:golesLocal,
+goles_visitante:golesVisit
+}])
 
 
-  alert("Partido registrado")
+const {data}=await db
+.from("clasificacion")
+.select("*")
+.in("equipo_id",[local,visit])
 
-  document.getElementById("golesLocal").value=""
-  document.getElementById("golesVisitante").value=""
+let equipoLocal=data.find(e=>e.equipo_id==local)
+let equipoVisit=data.find(e=>e.equipo_id==visit)
 
-  cargarTabla()
+equipoLocal.pj++
+equipoVisit.pj++
+
+equipoLocal.gf+=golesLocal
+equipoLocal.gc+=golesVisit
+
+equipoVisit.gf+=golesVisit
+equipoVisit.gc+=golesLocal
+
+if(golesLocal>golesVisit){
+
+equipoLocal.pg++
+equipoLocal.pts+=3
+equipoVisit.pp++
+
+equipoLocal.ultimos5=actualizarForma(equipoLocal.ultimos5,"V")
+equipoVisit.ultimos5=actualizarForma(equipoVisit.ultimos5,"D")
+
+}
+
+else if(golesVisit>golesLocal){
+
+equipoVisit.pg++
+equipoVisit.pts+=3
+equipoLocal.pp++
+
+equipoLocal.ultimos5=actualizarForma(equipoLocal.ultimos5,"D")
+equipoVisit.ultimos5=actualizarForma(equipoVisit.ultimos5,"V")
+
+}
+
+else{
+
+equipoLocal.pe++
+equipoVisit.pe++
+
+equipoLocal.pts+=1
+equipoVisit.pts+=1
+
+equipoLocal.ultimos5=actualizarForma(equipoLocal.ultimos5,"E")
+equipoVisit.ultimos5=actualizarForma(equipoVisit.ultimos5,"E")
+
+}
+
+equipoLocal.df=equipoLocal.gf-equipoLocal.gc
+equipoVisit.df=equipoVisit.gf-equipoVisit.gc
+
+
+await db
+.from("clasificacion")
+.update({
+pj: equipoLocal.pj,
+pg: equipoLocal.pg,
+pe: equipoLocal.pe,
+pp: equipoLocal.pp,
+gf: equipoLocal.gf,
+gc: equipoLocal.gc,
+df: equipoLocal.df,
+pts: equipoLocal.pts,
+ultimos5: equipoLocal.ultimos5
+})
+.eq("id", equipoLocal.id)
+await db
+.from("clasificacion")
+.update({
+pj: equipoVisit.pj,
+pg: equipoVisit.pg,
+pe: equipoVisit.pe,
+pp: equipoVisit.pp,
+gf: equipoVisit.gf,
+gc: equipoVisit.gc,
+df: equipoVisit.df,
+pts: equipoVisit.pts,
+ultimos5: equipoVisit.ultimos5
+})
+.eq("id", equipoVisit.id)
+
+document.getElementById("golesLocal").value=""
+document.getElementById("golesVisitante").value=""
+
+cargarTabla()
 
 }
 
 
+// =================
+// INICIO
+// =================
+
 cargarTabla()
-cargarEquiposSelect()
+cargarEquipos()
 
 </script>
-
 
 </body>
     <footer>
