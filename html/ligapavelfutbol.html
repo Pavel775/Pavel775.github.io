@@ -280,7 +280,7 @@ async function cargarTabla(){
     .from("clasificacion")
     .select(`
         pj,pg,pe,pp,gf,gc,df,pts,ultimos5,
-        equipos!clasificacion_equipo_id_fkey(nombre)
+        equipos(nombre)
     `)
     .order("pts", { ascending:false })
 
