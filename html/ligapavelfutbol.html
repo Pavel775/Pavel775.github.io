@@ -257,34 +257,57 @@ tbody tr:nth-last-child(-n+3) {
     </tbody>
 </table>
     
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script>
+
+// ===============================
+// CONFIGURACIÓN SUPABASE
+// ===============================
+
+const SUPABASE_URL = "https://notacepolkctimqaqtbz.supabase.co"
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5vdGFjZXBvbGtjdGltcWFxdGJ6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI0NDczODAsImV4cCI6MjA4ODAyMzM4MH0.eACTDyujWovbMflSgj_CgS80IbgZcaLRuS8036-WmmQ"
+
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
+
 
 // ===============================
 // CARGAR CLASIFICACIÓN
 // ===============================
+
 async function cargarTabla() {
 
-  const res = await fetch('/api/clasificacion')
-  const equipos = await res.json()
+  const { data, error } = await supabase
+    .from("clasificacion")
+    .select(`
+      pj,pg,pe,pp,gf,gc,df,pts,ultimos5,
+      equipos(nombre)
+    `)
+    .order("pts", { ascending: false })
+
+  if(error){
+    console.error(error)
+    return
+  }
 
   const tbody = document.querySelector("#ligaTable tbody")
   tbody.innerHTML = ""
 
-  equipos.forEach((e, index) => {
+  data.forEach((e, index) => {
 
     const row = `
       <tr>
         <td>${index + 1}</td>
-        <td>${e.nombre}</td>
+        <td>${e.equipos.nombre}</td>
         <td>${e.pj}</td>
         <td>${e.pg}</td>
         <td>${e.pe}</td>
         <td>${e.pp}</td>
         <td>${e.gf}</td>
         <td>${e.gc}</td>
-        <td>${e.gf - e.gc}</td>
+        <td>${e.df}</td>
         <td>${e.pts}</td>
-        <td></td>
+        <td>${e.ultimos5 || ""}</td>
       </tr>
     `
 
@@ -296,10 +319,18 @@ async function cargarTabla() {
 // ===============================
 // CARGAR EQUIPOS EN SELECT
 // ===============================
+
 async function cargarEquiposSelect() {
 
-  const res = await fetch('/api/clasificacion')
-  const equipos = await res.json()
+  const { data, error } = await supabase
+    .from("equipos")
+    .select("*")
+    .order("nombre")
+
+  if(error){
+    console.error(error)
+    return
+  }
 
   const selectLocal = document.getElementById("equipoLocal")
   const selectVisitante = document.getElementById("equipoVisitante")
@@ -307,16 +338,27 @@ async function cargarEquiposSelect() {
   selectLocal.innerHTML = ""
   selectVisitante.innerHTML = ""
 
-  equipos.forEach(e => {
-    selectLocal.innerHTML += `<option value="${e.nombre}">${e.nombre}</option>`
-    selectVisitante.innerHTML += `<option value="${e.nombre}">${e.nombre}</option>`
+  data.forEach(e => {
+
+    selectLocal.innerHTML += `
+      <option value="${e.id}">
+        ${e.nombre}
+      </option>
+    `
+
+    selectVisitante.innerHTML += `
+      <option value="${e.id}">
+        ${e.nombre}
+      </option>
+    `
   })
 }
 
 
 // ===============================
-// GUARDAR PARTIDO
+// REGISTRAR PARTIDO
 // ===============================
+
 async function guardarPartido() {
 
   const local = document.getElementById("equipoLocal").value
@@ -324,43 +366,46 @@ async function guardarPartido() {
   const golesLocal = parseInt(document.getElementById("golesLocal").value)
   const golesVisitante = parseInt(document.getElementById("golesVisitante").value)
 
-  if (local === visitante)
+  if(local === visitante)
     return alert("Un equipo no puede jugar contra sí mismo")
 
-  if (isNaN(golesLocal) || isNaN(golesVisitante))
+  if(isNaN(golesLocal) || isNaN(golesVisitante))
     return alert("Introduce los goles")
 
-  const response = await fetch('/api/registrar', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      local,
-      visitante,
-      golesLocal,
-      golesVisitante
-    })
-  })
+  const { error } = await supabase
+    .from("partidos")
+    .insert([
+      {
+        equipo_local: local,
+        equipo_visitante: visitante,
+        goles_local: golesLocal,
+        goles_visitante: golesVisitante
+      }
+    ])
 
-  const data = await response.json()
-
-  if (data.success) {
-    alert("Partido guardado correctamente")
-    document.getElementById("golesLocal").value = ""
-    document.getElementById("golesVisitante").value = ""
-    cargarTabla()
-  } else {
-    alert(data.error || "Error al guardar partido")
+  if(error){
+    console.error(error)
+    alert("Error al guardar partido")
+    return
   }
+
+  alert("Partido registrado")
+
+  document.getElementById("golesLocal").value = ""
+  document.getElementById("golesVisitante").value = ""
+
 }
 
 
 // ===============================
 // INICIO
 // ===============================
+
 cargarTabla()
 cargarEquiposSelect()
 
 </script>
+
 
     </body>
     <footer>
