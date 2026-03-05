@@ -1,279 +1,171 @@
 <!DOCTYPE html>
 <html lang="es">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>La Liga España</title>
-        <link rel="shotcut icon" href="/img/logo pavel.png">
-        <link rel="stylesheet" type="text/css" href="/css/estilosliga.css">
-        <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
-    </head>
-    <header>
-        <nav>
-            <div class="logo">La Liga Española</div>
-            <div class="menu-toggle"><i class="fas fa-bars"></i></div>
-            <ul>
-                <li>
-                    <a href="/index.html">Inicio</a>
-                </li>
-                <li>
-                    <a href="/html/sobremi.html">Sobre mí</a>
-                </li>
-                <li>
-                    <a href="/html/ligapavelfutbol.html">Liga Española</a>
-                    <a href="/html/ligaeditable.html">Liga Volta</a>
-                </li>
-            </ul>
-        </nav>
-    </header>
-    <body>
-        <style>
-    body {
-    font-family: Arial, Helvetica, sans-serif;
-    background-color: #f4f6f9;
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La Liga España</title>
+
+<link rel="stylesheet" type="text/css" href="/css/estilosliga.css">
+<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
+
+<style>
+
+body{
+font-family:Arial, Helvetica, sans-serif;
+background:#f4f6f9;
 }
 
-/* ===== CONTENEDOR ===== */
-table {
-    width: 100%;
-    border-collapse: collapse;
-    background: white;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    border-radius: 8px;
-    overflow: hidden;
+table{
+width:100%;
+border-collapse:collapse;
+background:white;
+box-shadow:0 4px 12px rgba(0,0,0,0.08);
+border-radius:8px;
+overflow:hidden;
 }
 
-/* ===== CABECERA ===== */
-thead {
-    background: #111827;
-    color: white;
+thead{
+background:#111827;
+color:white;
 }
 
-thead th {
-    padding: 12px 8px;
-    font-size: 14px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+thead th{
+padding:12px 8px;
+font-size:14px;
 }
 
-/* ===== FILAS ===== */
-tbody td {
-    padding: 10px 8px;
-    text-align: center;
-    font-size: 14px;
+tbody td{
+padding:10px 8px;
+text-align:center;
+font-size:14px;
 }
 
-tbody tr:nth-child(even) {
-    background-color: #f9fafb;
+tbody tr:nth-child(even){
+background:#f9fafb;
 }
 
-tbody tr:hover {
-    background-color: #e5e7eb;
-    transition: 0.2s ease;
+tbody tr:hover{
+background:#e5e7eb;
 }
 
-/* ===== COLUMNA EQUIPO ===== */
-tbody td:nth-child(2) {
-    text-align: left;
-    font-weight: 600;
+tbody td:nth-child(2){
+text-align:left;
+font-weight:600;
 }
 
-/* ===== ZONAS DE CLASIFICACIÓN ===== */
-
-/* Champions (1-4) */
-tbody tr:nth-child(-n+4) {
-    border-left: 5px solid #2563eb;
+tbody tr:nth-child(-n+4){
+border-left:5px solid #2563eb;
 }
 
-/* Europa League (5-6) */
-tbody tr:nth-child(5),
-tbody tr:nth-child(6) {
-    border-left: 5px solid #16a34a;
+tbody tr:nth-last-child(-n+3){
+border-left:5px solid #dc2626;
 }
 
-/* Descenso (18-20) */
-tbody tr:nth-last-child(-n+3) {
-    border-left: 5px solid #dc2626;
+.ultimos5{
+display:flex;
+justify-content:center;
+gap:6px;
 }
 
-/* ===== ÚLTIMOS 5 ===== */
-
-.ultimos5 {
-    display: flex;
-    justify-content: center;
-    gap: 6px;
+.forma{
+width:22px;
+height:22px;
+border-radius:50%;
+font-size:12px;
+font-weight:bold;
+color:white;
+display:flex;
+align-items:center;
+justify-content:center;
 }
 
-.forma {
-    width: 22px;
-    height: 22px;
-    border-radius: 50%;
-    font-size: 12px;
-    font-weight: bold;
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    animation: aparecer 0.3s ease forwards;
-    transform: scale(0);
+.victoria{background:#22c55e;}
+.empate{background:#9ca3af;}
+.derrota{background:#ef4444;}
+
+.panel-partido{
+background:white;
+padding:15px;
+margin-bottom:20px;
+border-radius:8px;
+box-shadow:0 3px 10px rgba(0,0,0,0.08);
+display:flex;
+gap:10px;
+flex-wrap:wrap;
 }
 
-/* Animación */
-@keyframes aparecer {
-    to {
-        transform: scale(1);
-    }
+.panel-partido button{
+background:#2563eb;
+color:white;
+border:none;
+padding:7px 14px;
+border-radius:5px;
+cursor:pointer;
 }
 
-/* Estados */
-.victoria { background: #22c55e; }
-.empate   { background: #9ca3af; }
-.derrota  { background: #ef4444; }
-/* ===== RESPONSIVE ===== */
-@media (max-width: 900px) {
-    table {
-        font-size: 12px;
-    }
-
-    thead {
-        display: none;
-    }
-
-    tbody tr {
-        display: block;
-        margin-bottom: 10px;
-        border-bottom: 2px solid #ddd;
-    }
-
-    tbody td {
-        display: flex;
-        justify-content: space-between;
-        padding: 6px;
-    }
-}
-.panel-partido, .panel-historial {
-    background: white;
-    padding: 15px;
-    margin-bottom: 20px;
-    border-radius: 8px;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
-}
-
-.panel-partido {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    flex-wrap: wrap;
-}
-
-.panel-partido select,
-.panel-partido input {
-    padding: 6px;
-}
-
-.panel-partido button {
-    background: #2563eb;
-    color: white;
-    border: none;
-    padding: 7px 14px;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.panel-partido button:hover {
-    background: #1d4ed8;
-}
-
-#historialPartidos {
-    max-height: 200px;
-    overflow-y: auto;
-    margin-bottom: 10px;
-}
-
-.partido-item {
-    padding: 6px;
-    border-bottom: 1px solid #eee;
-    font-size: 14px;
-}
-
-.btn-deshacer {
-    background: #dc2626;
-    color: white;
-    border: none;
-    padding: 7px 14px;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.btn-deshacer:hover {
-    background: #b91c1c;
-}
 </style>
 
+</head>
+
+<body>
+
 <h1>La Liga</h1>
+
 <div class="panel-partido">
 
-    <h3>Registrar Partido</h3>
+<select id="equipoLocal"></select>
+<input type="number" id="golesLocal" min="0" placeholder="Goles">
 
-    <select id="equipoLocal"></select>
-    <input type="number" id="golesLocal" min="0" placeholder="Goles">
+<span>vs</span>
 
-    <span>vs</span>
+<input type="number" id="golesVisitante" min="0" placeholder="Goles">
+<select id="equipoVisitante"></select>
 
-    <input type="number" id="golesVisitante" min="0" placeholder="Goles">
-    <select id="equipoVisitante"></select>
-
-    <button onclick="guardarPartido()">Guardar</button>
+<button onclick="guardarPartido()">Guardar</button>
 
 </div>
-
-<div class="panel-historial">
-    <h3>Historial de Partidos</h3>
-    <div id="historialPartidos"></div>
-    <button onclick="deshacerUltimoPartido()" class="btn-deshacer">
-        Deshacer último partido
-    </button>
-</div>
-
 
 <table id="ligaTable">
-    <thead>
-        <tr>
-            <th>Pos</th>
-            <th>Equipo</th>
-            <th>PJ</th>
-            <th>PG</th>
-            <th>PE</th>
-            <th>PP</th>
-            <th>GF</th>
-            <th>GC</th>
-            <th>DF</th>
-            <th>PTS</th>
-            <th>Últimos 5</th>
-        </tr>
-    </thead>
-    <tbody>
-    </tbody>
+
+<thead>
+<tr>
+<th>Pos</th>
+<th>Equipo</th>
+<th>PJ</th>
+<th>PG</th>
+<th>PE</th>
+<th>PP</th>
+<th>GF</th>
+<th>GC</th>
+<th>DF</th>
+<th>PTS</th>
+<th>Últimos 5</th>
+</tr>
+</thead>
+
+<tbody></tbody>
+
 </table>
 
-<!-- Supabase JS -->
+<!-- SUPABASE LIBRERIA -->
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 
 <script>
 
-const SUPABASE_URL = "https://notacepolkctimqaqtbz.supabase.co"
+const SUPABASE_URL="https://notacepolkctimqaqtbz.supabase.co"
 const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5vdGFjZXBvbGtjdGltcWFxdGJ6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI0NDczODAsImV4cCI6MjA4ODAyMzM4MH0.eACTDyujWovbMflSgj_CgS80IbgZcaLRuS8036-WmmQ"
 
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
+const { createClient } = supabase
+const db=createClient(SUPABASE_URL,SUPABASE_KEY)
 
 
-// ===============================
+// =================
 // CARGAR TABLA
-// ===============================
+// =================
 
 async function cargarTabla(){
 
-const { data } = await supabase
+const {data,error}=await db
 .from("clasificacion")
 .select(`
 *,
@@ -281,12 +173,17 @@ equipos(nombre)
 `)
 .order("pts",{ascending:false})
 
-const tbody = document.querySelector("#ligaTable tbody")
+if(error){
+console.log(error)
+return
+}
+
+const tbody=document.querySelector("#ligaTable tbody")
 tbody.innerHTML=""
 
 data.forEach((e,i)=>{
 
-const row = `
+tbody.innerHTML+=`
 <tr>
 <td>${i+1}</td>
 <td>${e.equipos.nombre}</td>
@@ -302,20 +199,18 @@ const row = `
 </tr>
 `
 
-tbody.innerHTML += row
-
 })
 
 }
 
 
-// ===============================
-// PINTAR ÚLTIMOS 5
-// ===============================
+// =================
+// PINTAR FORMA
+// =================
 
 function pintarForma(forma){
 
-if(!forma) return ""
+if(!forma)return ""
 
 return forma.split("").map(r=>{
 
@@ -328,120 +223,113 @@ if(r==="D") return '<span class="forma derrota">D</span>'
 }
 
 
-// ===============================
-// CARGAR EQUIPOS SELECT
-// ===============================
+// =================
+// CARGAR EQUIPOS
+// =================
 
-async function cargarEquiposSelect(){
+async function cargarEquipos(){
 
-const { data } = await supabase
+const {data}=await db
 .from("equipos")
 .select("*")
 .order("nombre")
 
-const local = document.getElementById("equipoLocal")
-const visit = document.getElementById("equipoVisitante")
+const local=document.getElementById("equipoLocal")
+const visit=document.getElementById("equipoVisitante")
 
 local.innerHTML=""
 visit.innerHTML=""
 
 data.forEach(e=>{
 
-local.innerHTML += `<option value="${e.id}">${e.nombre}</option>`
-visit.innerHTML += `<option value="${e.id}">${e.nombre}</option>`
+local.innerHTML+=`<option value="${e.id}">${e.nombre}</option>`
+visit.innerHTML+=`<option value="${e.id}">${e.nombre}</option>`
 
 })
 
 }
 
 
-// ===============================
+// =================
 // ACTUALIZAR FORMA
-// ===============================
+// =================
 
-function actualizarForma(actual,resultado){
+function actualizarForma(actual,res){
 
 if(!actual) actual=""
 
-let arr = actual.split("").filter(x=>x!="")
+let arr=actual.split("").filter(x=>x!="")
 
-arr.push(resultado)
+arr.push(res)
 
-if(arr.length>5)
-arr.shift()
+if(arr.length>5) arr.shift()
 
 return arr.join("")
 
 }
 
 
-// ===============================
-// REGISTRAR PARTIDO
-// ===============================
+// =================
+// GUARDAR PARTIDO
+// =================
 
 async function guardarPartido(){
 
-const local = parseInt(document.getElementById("equipoLocal").value)
-const visitante = parseInt(document.getElementById("equipoVisitante").value)
+const local=parseInt(document.getElementById("equipoLocal").value)
+const visit=parseInt(document.getElementById("equipoVisitante").value)
 
-const golesLocal = parseInt(document.getElementById("golesLocal").value)
-const golesVisitante = parseInt(document.getElementById("golesVisitante").value)
+const golesLocal=parseInt(document.getElementById("golesLocal").value)
+const golesVisit=parseInt(document.getElementById("golesVisitante").value)
 
-if(local===visitante)
-return alert("No pueden ser el mismo equipo")
+if(local===visit){
+alert("No pueden ser el mismo equipo")
+return
+}
 
-// GUARDAR PARTIDO
-
-await supabase.from("partidos").insert([{
+await db.from("partidos").insert([{
 equipo_local:local,
-equipo_visitante:visitante,
+equipo_visitante:visit,
 goles_local:golesLocal,
-goles_visitante:golesVisitante
+goles_visitante:golesVisit
 }])
 
 
-const { data } = await supabase
+const {data}=await db
 .from("clasificacion")
 .select("*")
-.in("equipo_id",[local,visitante])
+.in("equipo_id",[local,visit])
 
-let equipoLocal = data.find(e=>e.equipo_id==local)
-let equipoVisit = data.find(e=>e.equipo_id==visitante)
+let equipoLocal=data.find(e=>e.equipo_id==local)
+let equipoVisit=data.find(e=>e.equipo_id==visit)
 
-
-// PJ
 equipoLocal.pj++
 equipoVisit.pj++
 
-// GOLES
-equipoLocal.gf += golesLocal
-equipoLocal.gc += golesVisitante
+equipoLocal.gf+=golesLocal
+equipoLocal.gc+=golesVisit
 
-equipoVisit.gf += golesVisitante
-equipoVisit.gc += golesLocal
+equipoVisit.gf+=golesVisit
+equipoVisit.gc+=golesLocal
 
-
-// RESULTADO
-
-if(golesLocal>golesVisitante){
+if(golesLocal>golesVisit){
 
 equipoLocal.pg++
 equipoLocal.pts+=3
 equipoVisit.pp++
 
-equipoLocal.ultimos5 = actualizarForma(equipoLocal.ultimos5,"V")
-equipoVisit.ultimos5 = actualizarForma(equipoVisit.ultimos5,"D")
+equipoLocal.ultimos5=actualizarForma(equipoLocal.ultimos5,"V")
+equipoVisit.ultimos5=actualizarForma(equipoVisit.ultimos5,"D")
 
 }
 
-else if(golesVisitante>golesLocal){
+else if(golesVisit>golesLocal){
 
 equipoVisit.pg++
 equipoVisit.pts+=3
 equipoLocal.pp++
 
-equipoLocal.ultimos5 = actualizarForma(equipoLocal.ultimos5,"D")
-equipoVisit.ultimos5 = actualizarForma(equipoVisit.ultimos5,"V")
+equipoLocal.ultimos5=actualizarForma(equipoLocal.ultimos5,"D")
+equipoVisit.ultimos5=actualizarForma(equipoVisit.ultimos5,"V")
 
 }
 
@@ -453,55 +341,35 @@ equipoVisit.pe++
 equipoLocal.pts+=1
 equipoVisit.pts+=1
 
-equipoLocal.ultimos5 = actualizarForma(equipoLocal.ultimos5,"E")
-equipoVisit.ultimos5 = actualizarForma(equipoVisit.ultimos5,"E")
+equipoLocal.ultimos5=actualizarForma(equipoLocal.ultimos5,"E")
+equipoVisit.ultimos5=actualizarForma(equipoVisit.ultimos5,"E")
 
 }
 
-
-// DIFERENCIA
-
-equipoLocal.df = equipoLocal.gf - equipoLocal.gc
-equipoVisit.df = equipoVisit.gf - equipoVisit.gc
+equipoLocal.df=equipoLocal.gf-equipoLocal.gc
+equipoVisit.df=equipoVisit.gf-equipoVisit.gc
 
 
-// GUARDAR
-
-await supabase
-.from("clasificacion")
-.update(equipoLocal)
-.eq("id",equipoLocal.id)
-
-await supabase
-.from("clasificacion")
-.update(equipoVisit)
-.eq("id",equipoVisit.id)
-
-
-// LIMPIAR
+await db.from("clasificacion").update(equipoLocal).eq("id",equipoLocal.id)
+await db.from("clasificacion").update(equipoVisit).eq("id",equipoVisit.id)
 
 document.getElementById("golesLocal").value=""
 document.getElementById("golesVisitante").value=""
 
-alert("Partido guardado")
-
 cargarTabla()
 
 }
 
 
-// ===============================
+// =================
 // INICIO
-// ===============================
+// =================
 
 cargarTabla()
-cargarEquiposSelect()
+cargarEquipos()
 
 </script>
 
+</body>
 
-    </body>
-    <footer>
-        <p>© 2024 Pavel775. Todos los derechos reservados.</p>
-    </footer>
 </html>
