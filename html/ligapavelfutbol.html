@@ -279,8 +279,8 @@ async function cargarTabla(){
   const { data, error } = await db
     .from("clasificacion")
     .select(`
-      pj,pg,pe,pp,gf,gc,df,pts,ultimos5,
-      equipos(nombre)
+        pj,pg,pe,pp,gf,gc,df,pts,ultimos5,
+        equipos!clasificacion_equipo_id_fkey(nombre)
     `)
     .order("pts", { ascending:false })
 
